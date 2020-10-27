@@ -6,10 +6,14 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new (user_params)
-      @user.save
+    if @user.save
       session[:user_id] = @user.id
       flash[:notice] = "You are now registered and logged in!"
-    redirect_to '/profile'
+      redirect_to '/profile'
+    else
+      flash[:failure] = "You are missing required fields."
+      render :new
+    end
   end
 
   def show
@@ -24,7 +28,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(:name, :address, :city, :state, :zip, :email, :password)
+    params.permit(:name, :address, :city, :state, :zip, :email, :password, :password_confirmation)
   end
 
 end
