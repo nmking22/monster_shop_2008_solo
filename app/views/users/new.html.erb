@@ -1,0 +1,24 @@
+<h3>New User Registration</h3>
+
+<%= form_tag("/register") do %>
+  <section>
+    <%= label_tag "Name: " %>
+    <%= text_field_tag :name, @user.name %>
+    <%= label_tag "Street Address: " %>
+    <%= text_field_tag :address, @user.address %>
+    <%= label_tag "City: " %>
+    <%= text_field_tag :city, @user.city %>
+    <%= label_tag "State: " %>
+    <%= text_field_tag :state, @user.state %>
+    <%= label_tag "Zip Code: " %>
+    <%= text_field_tag :zip, @user.zip %>
+    <%= label_tag "Email Address: " %>
+    <%= text_field_tag :email%>
+    <%= label_tag "Password: " %>
+    <%= text_field_tag :password %>
+    <%= label_tag "Confirm Password: " %>
+    <%= text_field_tag :password_confirmation %>
+
+    <%= submit_tag 'Create Account', class: :button %>
+  </section>
+<% end %>
