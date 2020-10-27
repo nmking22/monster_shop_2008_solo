@@ -15,6 +15,7 @@ RSpec.describe 'User' do
       fill_in :password_confirmation, with: "password"
     click_on "Create Account"
     expect(current_path).to eq("/profile")
+    save_and_open_page
     expect(page).to have_content("You are now registered and logged in!")
   end
 end
