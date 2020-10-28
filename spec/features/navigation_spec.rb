@@ -214,5 +214,23 @@ RSpec.describe 'Site Navigation' do
         expect(page).to have_no_content('Cart: 0')
       end
     end
+
+    it "I can't visit /merchant or /cart" do
+      user_1 = User.create!(name: "Batman",
+                            address: "Some dark cave 11",
+                            city: "Arkham",
+                            state: "CO",
+                            zip: "81301",
+                            email: 'batmansemail@email.com',
+                            password: "password",
+                            role: 2)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user_1)
+
+      visit '/merchant'
+      expect(page).to have_content("The page you were looking for doesn't exist (404)")
+
+      visit '/cart'
+      expect(page).to have_content("The page you were looking for doesn't exist (404)")
+    end
   end
 end
