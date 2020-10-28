@@ -71,4 +71,15 @@ RSpec.describe 'Logging In' do
     expect(page).to_not have_link('Log In')
     expect(page).to_not have_link('Register')
   end
+
+  it 'can not log in with invalid credentials and redirects to login page' do
+    visit '/login'
+
+    fill_in :email, with: "abc123@gmail.com"
+    fill_in :password, with: "abc123"
+    click_button 'Log In'
+
+    expect(current_path).to eq('/login')
+    expect(page).to have_content("Sorry, your credentials are bad.")
+  end
 end
