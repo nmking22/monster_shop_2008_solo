@@ -8,6 +8,9 @@ class CartController < ApplicationController
 
   def show
     @items = cart.items
+    if current_admin_user?
+      render file: "/public/404"
+    end
   end
 
   def empty
