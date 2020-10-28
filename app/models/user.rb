@@ -12,5 +12,4 @@ class User < ApplicationRecord
   def duplicate_email?
     User.pluck(:email).include?(email)
   end
-
 end
