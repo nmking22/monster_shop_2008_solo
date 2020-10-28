@@ -12,6 +12,20 @@ RSpec.describe User, type: :model do
     it { should validate_presence_of :password }
   end
 
+  describe "roles" do
+    it 'can be created with a default role' do
+      user_1 = User.new(name: "Sam",
+                        address: "Some dark cave 14",
+                        city: "denver",
+                        state: "CO",
+                        zip: "855301",
+                        email: 'batmansemail@email.com',
+                        password: "password")
+      expect(user_1.role).to eq('default_user')
+      expect(user_1.default_user?).to be_truthy
+    end
+  end
+
   describe 'instance methods' do
     it '#duplicate_email?' do
       user_1 = User.create!(name: "Batman",
