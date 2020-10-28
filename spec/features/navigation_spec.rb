@@ -106,9 +106,39 @@ RSpec.describe 'Site Navigation' do
         expect(page).to have_content("All Items")
         expect(page).to have_content("Profile")
         expect(page).to have_content("Log Out")
+        expect(page).to have_content('Logged in as Batman')
+        expect(page).not_to have_content("Log In")
+        expect(page).to have_no_content("Register")
+        expect(page).to have_no_content("Merchant Dashboard")
+      end
+    end
+  end
+
+  describe 'As a merchant' do
+    it 'I can see all links plus merchant' do
+      user_1 = User.create!(name: "Batman",
+                            address: "Some dark cave 11",
+                            city: "Arkham",
+                            state: "CO",
+                            zip: "81301",
+                            email: 'batmansemail@email.com',
+                            password: "password",
+                            role: 1)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user_1)
+
+      visit '/'
+
+      within 'nav' do
+        expect(page).to have_content("Home")
+        expect(page).to have_content("Cart: 0")
+        expect(page).to have_content("All Merchants")
+        expect(page).to have_content("All Items")
+        expect(page).to have_content("Profile")
+        expect(page).to have_content("Log Out")
         expect(page).not_to have_content("Log In")
         expect(page).to have_no_content("Register")
         expect(page).to have_content('Logged in as Batman')
+        expect(page).to have_content('Merchant Dashboard')
       end
     end
   end
