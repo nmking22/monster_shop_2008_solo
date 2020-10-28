@@ -38,6 +38,19 @@ RSpec.describe User, type: :model do
       expect(user_1.role).to eq('merchant_user')
       expect(user_1.merchant_user?).to be_truthy
     end
+
+    it 'can be created with an admin role' do
+      user_1 = User.create!(name: "Superman",
+                            address: "11 Smallville Ln",
+                            city: "Smallville",
+                            state: "NE",
+                            zip: "56423",
+                            email: 'ihatekryptonite@email.com',
+                            password: "password",
+                            role: 2)
+      expect(user_1.role).to eq('admin_user')
+      expect(user_1.admin_user?).to be_truthy
+    end
   end
 
   describe 'instance methods' do
@@ -59,5 +72,5 @@ RSpec.describe User, type: :model do
 
       expect(user_2.duplicate_email?).to eq(true)
     end
-   end
   end
+end
