@@ -3,21 +3,21 @@
 <%= form_tag("/register") do %>
   <section>
     <%= label_tag "Name: " %>
-    <%= text_field_tag :name, @user.name %>
+    <%= text_field_tag :name, @user.name %><br>
     <%= label_tag "Street Address: " %>
-    <%= text_field_tag :address, @user.address %>
+    <%= text_field_tag :address, @user.address %><br>
     <%= label_tag "City: " %>
-    <%= text_field_tag :city, @user.city %>
+    <%= text_field_tag :city, @user.city %><br>
     <%= label_tag "State: " %>
-    <%= text_field_tag :state, @user.state %>
+    <%= text_field_tag :state, @user.state %><br>
     <%= label_tag "Zip Code: " %>
-    <%= text_field_tag :zip, @user.zip %>
+    <%= text_field_tag :zip, @user.zip %><br>
     <%= label_tag "Email Address: " %>
-    <%= text_field_tag :email%>
+    <%= text_field_tag :email%><br>
     <%= label_tag "Password: " %>
-    <%= password_field_tag :password %>
+    <%= password_field_tag :password %><br>
     <%= label_tag "Confirm Password: " %>
-    <%= password_field_tag :password_confirmation %>
+    <%= password_field_tag :password_confirmation %><br>
 
     <%= submit_tag 'Create Account', class: :button %>
   </section>
