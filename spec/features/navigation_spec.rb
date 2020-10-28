@@ -142,4 +142,34 @@ RSpec.describe 'Site Navigation' do
       end
     end
   end
+
+  describe 'As an admin' do
+    it 'I can see all links plus admin dash, all users, no cart' do
+      user_1 = User.create!(name: "Superman",
+                            address: "11 Smallville Ln",
+                            city: "Smallville",
+                            state: "NE",
+                            zip: "56423",
+                            email: 'ihatekryptonite@email.com',
+                            password: "password",
+                            role: 2)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user_1)
+
+      visit '/'
+
+      within 'nav' do
+        expect(page).to have_content('Home')
+        expect(page).to have_content('All Merchants')
+        expect(page).to have_content('All Items')
+        expect(page).to have_content('Profile')
+        expect(page).to have_content('Log Out')
+        expect(page).to have_content('Logged in as Superman')
+        expect(page).to have_content('Admin Dashboard')
+        expect(page).to have_content('All Users')
+        expect(page).not_to have_content('Log In')
+        expect(page).to have_no_content('Register')
+        expect(page).to have_no_content('Cart: 0')
+      end
+    end
+  end
 end
