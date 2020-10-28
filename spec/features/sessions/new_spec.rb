@@ -82,4 +82,55 @@ RSpec.describe 'Logging In' do
     expect(current_path).to eq('/login')
     expect(page).to have_content("Sorry, your credentials are bad.")
   end
+
+  it 'redirects before creation if already logged in as default user' do
+    user = User.create!(name: "Batman",
+                        address: "Some dark cave 11",
+                        city: "Arkham",
+                        state: "CO",
+                        zip: "81301",
+                        email: 'batmansemail@email.com',
+                        password: "password",
+                        role: 0)
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+
+    visit '/login'
+
+    expect(current_path).to eq('/profile')
+    expect(page).to have_content("You are already logged in.")
+  end
+
+  it 'redirects before creation if already logged in as merchant user' do
+    user = User.create!(name: "Batman",
+                        address: "Some dark cave 11",
+                        city: "Arkham",
+                        state: "CO",
+                        zip: "81301",
+                        email: 'batmansemail@email.com',
+                        password: "password",
+                        role: 1)
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+
+    visit '/login'
+
+    expect(current_path).to eq('/merchant')
+    expect(page).to have_content("You are already logged in.")
+  end
+
+  it 'redirects before creation if already logged in as admin user' do
+    user = User.create!(name: "Batman",
+                        address: "Some dark cave 11",
+                        city: "Arkham",
+                        state: "CO",
+                        zip: "81301",
+                        email: 'batmansemail@email.com',
+                        password: "password",
+                        role: 2)
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+
+    visit '/login'
+
+    expect(current_path).to eq('/admin')
+    expect(page).to have_content("You are already logged in.")
+  end
 end
