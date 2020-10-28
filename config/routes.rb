@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   # sessions
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
+  delete '/', to: 'sessions#destroy'
 
   # cart
   post "/cart/:item_id", to: "cart#add_item"
