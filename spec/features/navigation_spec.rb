@@ -122,6 +122,24 @@ RSpec.describe 'Site Navigation' do
         expect(page).to have_no_content("Merchant Dashboard")
       end
     end
+
+    it "I can't visit /admin or /merchant" do
+      user_1 = User.create!(name: "Batman",
+                            address: "Some dark cave 11",
+                            city: "Arkham",
+                            state: "CO",
+                            zip: "81301",
+                            email: 'batmansemail@email.com',
+                            password: "password",
+                            role: 0)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user_1)
+
+      visit '/admin'
+      expect(page).to have_content("The page you were looking for doesn't exist (404)")
+
+      visit '/merchant'
+      expect(page).to have_content("The page you were looking for doesn't exist (404)")
+    end
   end
 
   describe 'As a merchant' do
@@ -150,6 +168,21 @@ RSpec.describe 'Site Navigation' do
         expect(page).to have_content('Logged in as Batman')
         expect(page).to have_content('Merchant Dashboard')
       end
+    end
+
+    it "I can't visit /admin" do
+      user_1 = User.create!(name: "Batman",
+                            address: "Some dark cave 11",
+                            city: "Arkham",
+                            state: "CO",
+                            zip: "81301",
+                            email: 'batmansemail@email.com',
+                            password: "password",
+                            role: 1)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user_1)
+
+      visit '/admin'
+      expect(page).to have_content("The page you were looking for doesn't exist (404)")
     end
   end
 
