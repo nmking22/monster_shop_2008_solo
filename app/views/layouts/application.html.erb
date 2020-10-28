@@ -10,12 +10,21 @@
 
   <body>
     <nav class = "topnav">
+      <%= link_to "Home", "/"%>
       <%= link_to "All Merchants", "/merchants"%>
       <%= link_to "All Items", "/items"%>
-      <%= link_to "Cart: #{cart.total_items}", "/cart" %>
-      <%= link_to "Home", "/"%>
-      <%= link_to "Log In", "/login"%>
-      <%= link_to "Register", "/register"%>
+      <section class="right-pane">
+        <%= link_to "Cart: #{cart.total_items}", "/cart" %>
+      </section>
+
+      <% if !current_user %>
+        <%= link_to "Log In", "/login"%>
+        <%= link_to "Register", "/register"%>
+      <% elsif current_default_user? %>
+        <%= link_to "Profile", "/profile" %>
+        <%= link_to "Log Out", "/" %>
+        <%= "Logged in as #{current_user.name}" %>
+      <% end %>
     </nav>
     <% flash.each do |name, msg| %>
       <div class= "<%=name%>-flash">
