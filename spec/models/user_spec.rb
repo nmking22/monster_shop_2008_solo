@@ -20,9 +20,23 @@ RSpec.describe User, type: :model do
                         state: "CO",
                         zip: "855301",
                         email: 'batmansemail@email.com',
-                        password: "password")
+                        password: "password",
+                        role: 0)
       expect(user_1.role).to eq('default_user')
       expect(user_1.default_user?).to be_truthy
+    end
+
+    it 'can be created with a merchant role' do
+      user_1 = User.new(name: "Robin",
+                        address: "Batcave",
+                        city: "Gotham",
+                        state: "FL",
+                        zip: "12345",
+                        email: 'robin911@email.com',
+                        password: "password",
+                        role: 1)
+      expect(user_1.role).to eq('merchant_user')
+      expect(user_1.merchant_user?).to be_truthy
     end
   end
 
