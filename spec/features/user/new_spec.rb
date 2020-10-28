@@ -40,4 +40,35 @@ RSpec.describe 'User' do
     expect(current_path).to eq("/register")
     expect(page).to have_content("You are missing required fields.")
   end
+
+  it 'shows a flash message if email exists and fields are populated' do
+    user_1 = User.create!(name: "Batman",
+                          address: "Some dark cave 11",
+                          city: "Arkham",
+                          state: "CO",
+                          zip: "81301",
+                          email: 'batmansemail@email.com',
+                          password: "password")
+    visit '/'
+    click_on 'Register'
+    expect(current_path).to eq("/register")
+      fill_in :name, with: "Ricky Bobby"
+      fill_in :address, with: "Victory Lane 1"
+      fill_in :city, with: "Dallas"
+      fill_in :state,  with: "Texas"
+      fill_in :zip, with: "11111"
+      fill_in :email, with: 'batmansemail@email.com'
+      fill_in :password, with: "password"
+      fill_in :password_confirmation, with: "password"
+    click_on "Create Account"
+
+      expect(current_path).to eq("/register")
+      expect(page).to have_field(:name, with: "Ricky Bobby")
+      expect(page).to have_field(:address, with: "Victory Lane 1")
+      expect(page).to have_field(:city, with: "Dallas")
+      expect(page).to have_field(:state, with: "Texas")
+      expect(page).to have_field(:zip, with: "11111")
+
+    expect(page).to have_content("Email already exists, please choose a different email.")
+  end
 end

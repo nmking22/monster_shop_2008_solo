@@ -7,4 +7,8 @@ class User < ApplicationRecord
 
   has_secure_password
 
+  def duplicate_email?
+    User.pluck(:email).include?(email)
+  end
+
 end
