@@ -23,11 +23,6 @@ class UsersController < ApplicationController
     render file: "/public/404" unless current_user
   end
 
-
-
-
-
-
   private
 
   def user_params
