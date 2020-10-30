@@ -18,6 +18,13 @@ class SessionsController < ApplicationController
     end
   end
 
+  def destroy
+    session[:user_id] = nil
+    session[:cart] = nil
+    flash[:notice] = "You are now logged out."
+    redirect_to "/"
+  end
+
   def redirect_user
     if current_default_user?
       redirect_to '/profile'
