@@ -23,5 +23,20 @@ class CartController < ApplicationController
     redirect_to '/cart'
   end
 
+  def increment
+    item = Item.find(params[:item_id])
+    if cart.items[item] < item.inventory
+      cart.add_item(item.id.to_s)
+    else
+      flash[:error] = "Cannot add item"
+    end
+    redirect_to '/cart'
+  end
+
+  def decrement
+    item = Item.find(params[:item_id])
+    cart.decrement_item(item)
+    redirect_to '/cart'
+  end
 
 end

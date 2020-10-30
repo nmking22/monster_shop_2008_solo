@@ -32,5 +32,35 @@ RSpec.describe 'Cart creation' do
         expect(page).to have_content("Cart: 2")
       end
     end
+
+    it "When I have items in cart, I can increment/decrement" do
+      visit "/items/#{@paper.id}"
+      click_on "Add To Cart"
+
+      visit "/cart"
+      expect(page).to have_content("Cart: 1")
+
+      within ".quantity" do
+        expect(page).to have_button("+")
+        click_button "+"
+      end
+
+      expect(page).to have_content("Cart: 2")
+
+      within ".quantity" do
+        25.times do
+          click_button "+"
+        end
+      end
+
+      expect(page).to have_content("Cannot add item")
+
+      within ".quantity" do
+        expect(page).to have_button("-")
+        click_button "-"
+      end
+
+      expect(page).to have_content("Cart: 24")
+    end
   end
 end
