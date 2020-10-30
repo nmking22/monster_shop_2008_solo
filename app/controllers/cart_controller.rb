@@ -37,6 +37,8 @@ class CartController < ApplicationController
     item = Item.find(params[:item_id])
     if cart.items[item] > 0
       cart.decrement_item(item)
+    else
+      flash[:error] = "Cannot decrement item below 0"
     end
     redirect_to '/cart'
   end
