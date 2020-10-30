@@ -48,4 +48,23 @@ describe 'As a user, when I visit user show' do
     expect(page).to have_content('Spiderman')
     expect(page).to have_content('12345')
   end
+
+  it "I can click on the 'Edit Password' link and fill out a form to change my password" do
+    visit '/profile'
+
+    old_password = @user.password_digest
+
+    click_link 'Edit Password'
+
+    expect(current_path).to eq('/password/edit')
+
+    fill_in :password, with: "twoholestraw"
+    fill_in :password_confirmation, with: "twoholestraw"
+
+    click_button 'Update Password'
+
+    expect(current_path).to eq('/profile')
+    expect(page).to have_content('Your password has been updated.')
+    expect(@user.password_digest).not_to eq(old_password)
+  end
 end
