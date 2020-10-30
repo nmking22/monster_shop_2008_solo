@@ -1,0 +1,20 @@
+<h3>Edit Profile</h3>
+
+<%= form_tag "/profile", method: :patch do %>
+  <section>
+    <%= label_tag "Name: " %>
+    <%= text_field_tag :name, current_user.name %><br>
+    <%= label_tag "Street Address: " %>
+    <%= text_field_tag :address, current_user.address %><br>
+    <%= label_tag "City: " %>
+    <%= text_field_tag :city, current_user.city %><br>
+    <%= label_tag "State: " %>
+    <%= text_field_tag :state, current_user.state %><br>
+    <%= label_tag "Zip Code: " %>
+    <%= text_field_tag :zip, current_user.zip %><br>
+    <%= label_tag "Email Address: " %>
+    <%= text_field_tag :email, current_user.email %><br>
+
+    <%= submit_tag 'Update Profile' %>
+  </section>
+<% end %>

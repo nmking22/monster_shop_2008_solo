@@ -23,10 +23,19 @@ class UsersController < ApplicationController
     render file: "/public/404" unless current_user
   end
 
+  def edit
+  end
 
-
-
-
+  def update
+    user = User.find_by(email: params[:email])
+    if user && user != current_user
+      flash[:notice] = 'That email address is already in use.'
+      redirect_to '/profile/edit'
+    else
+      current_user.update(user_params)
+      redirect_to '/profile', notice: "User information has been updated."
+    end
+  end
 
   private
 
