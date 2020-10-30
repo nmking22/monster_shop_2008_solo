@@ -25,6 +25,11 @@ Rails.application.routes.draw do
   get '/profile/edit', to: 'users#edit'
   patch '/profile', to: 'users#update'
 
+  # password
+  # resources :password, only: [:edit, :update]
+  get '/password/edit', to: 'password#edit'
+  patch '/password', to: 'password#update'
+
   # sessions
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
