@@ -35,7 +35,9 @@ class CartController < ApplicationController
 
   def decrement
     item = Item.find(params[:item_id])
-    cart.decrement_item(item)
+    if cart.items[item] > 0
+      cart.decrement_item(item)
+    end
     redirect_to '/cart'
   end
 
