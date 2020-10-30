@@ -11,6 +11,17 @@ describe 'As a user, when I visit user show' do
       email: 'batmansemail@email.com',
       password: "password"
     )
+
+    @existing_user = User.create!(
+      name: "Spiderman",
+      address: "A1 Sad Apartment",
+      city: "Metropolis",
+      state: "NY",
+      zip: "81305",
+      email: 'spideysenses@email.com',
+      password: "oneholestraw"
+    )
+
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
   end
 
@@ -40,8 +51,9 @@ describe 'As a user, when I visit user show' do
 
     fill_in :name, with: 'Spiderman'
     fill_in :zip, with: '12345'
+    fill_in :email, with: 'spidermanemail@gmail.com'
 
-    click_button 'Submit'
+    click_button 'Update Profile'
     expect(current_path).to eq('/profile')
 
     expect(page).to have_content('User information has been updated.')
@@ -66,5 +78,24 @@ describe 'As a user, when I visit user show' do
     expect(current_path).to eq('/profile')
     expect(page).to have_content('Your password has been updated.')
     expect(@user.password_digest).not_to eq(old_password)
+  end
+
+  it 'When I edit my email address it must be unique.' do
+    visit '/profile'
+
+    click_on 'Edit Profile'
+
+    expect(current_path).to eq('/profile/edit')
+
+    fill_in :email, with: @existing_user.email
+    click_button 'Update Profile'
+
+    expect(current_path).to eq('/profile/edit')
+    expect(page).to have_content('That email address is already in use.')
+
+    fill_in :email, with: '1234@gmail.com'
+    click_button 'Update Profile'
+
+    expect(current_path).to eq('/profile')
   end
 end
