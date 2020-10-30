@@ -12,6 +12,21 @@ class Item <ApplicationRecord
   validates_inclusion_of :active?, :in => [true, false]
   validates_numericality_of :price, greater_than: 0
 
+  def self.top_five
+      joins(:item_orders)
+      .select('items.id', 'sum(item_orders.quantity) AS total', 'items.name')
+      .group('items.id')
+      .order('total desc')
+      .limit(5)
+  end
+
+  def self.bottom_five
+      joins(:item_orders)
+      .select('items.id', 'sum(item_orders.quantity) AS total', 'items.name')
+      .group('items.id')
+      .order('total asc')
+      .limit(5)
+  end
 
   def average_review
     reviews.average(:rating)
@@ -23,6 +38,10 @@ class Item <ApplicationRecord
 
   def no_orders?
     item_orders.empty?
+  end
+
+  def quantity_sold
+    item_orders.sum(:quantity)
   end
 
 end
