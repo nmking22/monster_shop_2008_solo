@@ -8,7 +8,7 @@
     <%= "Email: #{current_user.email}" %><br>
 </ul></h3>
 
-<% if Order.all != []%>
+<% if Order.all != [] %>
   <%= link_to "My Orders", "/profile/orders" %>
 <% end %>
 <%= link_to "Edit Profile", "/profile/edit" %>
