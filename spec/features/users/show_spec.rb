@@ -126,6 +126,5 @@ describe 'As a user, when I visit user show' do
     expect(page).to have_link('My Orders')
     click_on 'My Orders'
     expect(current_path).to eq('/profile/orders')
-    save_and_open_page
   end
 end
