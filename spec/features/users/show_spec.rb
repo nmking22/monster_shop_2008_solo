@@ -106,7 +106,7 @@ describe 'As a user, when I visit user show' do
   end
 
   it 'The My Orders link takes me to /profile/orders if I have orders.' do
-    order_1 = Order.create!(
+    order_1 = @user.orders.create!(
       name: 'Rodrigo',
       address: '2 1st St.',
       city: 'South Park',
@@ -114,7 +114,7 @@ describe 'As a user, when I visit user show' do
       zip: '84125'
     )
 
-    order_2 = Order.create!(
+    order_2 = @user.orders.create!(
       name: 'Ogirdor',
       address: '1 2nd St.',
       city: 'Bloomington',
@@ -126,6 +126,5 @@ describe 'As a user, when I visit user show' do
     expect(page).to have_link('My Orders')
     click_on 'My Orders'
     expect(current_path).to eq('/profile/orders')
-    save_and_open_page
   end
 end

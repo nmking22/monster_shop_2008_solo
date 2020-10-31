@@ -1,4 +1,8 @@
 <h1>All orders for <%= @user.name %></h1>
+<p>Address: <%= @user.address%></p>
+<p>City: <%= @user.city%></p>
+<p>State: <%= @user.state%></p>
+<p>Zip: <%= @user.zip%></p>
 
 <ol>
   <% @orders.each do |order| %>
