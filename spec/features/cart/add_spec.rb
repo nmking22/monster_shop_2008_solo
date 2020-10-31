@@ -61,6 +61,16 @@ RSpec.describe 'Cart creation' do
       end
 
       expect(page).to have_content("Cart: 24")
+
+      within ".quantity" do
+        expect(page).to have_button("-")
+        25.times do
+          click_button "-"
+        end
+      end
+
+      expect(page).to have_content("Cart: 0")
+      expect(page).to have_content("Cannot decrement item below 0")
     end
   end
 end
