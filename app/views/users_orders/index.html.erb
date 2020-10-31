@@ -1,0 +1,14 @@
+<h1>All orders for <%= @user.name %></h1>
+
+<ol>
+  <% @orders.each do |order| %>
+    <li class="shipping-address">
+      <p>Order Id: <%= order.id %></p>
+      <p>Order Name: <%= order.name %></p>
+      <p>Order Address: <%= order.address %></p>
+      <p>Order City: <%= order.city %></p>
+      <p>Order State: <%= order.state %></p>
+      <p>Order Zip: <%= order.zip %></p>
+    </li>
+  <% end %>
+</ol>

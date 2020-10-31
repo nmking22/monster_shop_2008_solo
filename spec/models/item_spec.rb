@@ -29,7 +29,17 @@ describe Item, type: :model do
       @dog_bone = @brian.items.create(name: "Dog Bone", description: "They'll love it!", price: 21, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", active?:true, inventory: 21)
       @lizard_head = @brian.items.create(name: "Lizard Head", description: "Yummy", price: 500, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", active?:true, inventory: 21)
       @barbie = @brian.items.create(name: "Barbie", description: "Very Pink", price: 1000, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", active?:true, inventory: 21)
-      @order = Order.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
+      @user = User.create!(name: "Batman",
+                            address: "Some dark cave 11",
+                            city: "Arkham",
+                            state: "CO",
+                            zip: "81301",
+                            email: 'batmansemail@email.com',
+                            password: "password")
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+
+      @order = @user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
 
       @order.item_orders.create(item: @tire, price: @tire.price, quantity: 2)
       @order.item_orders.create(item: @pull_toy, price: @pull_toy.price, quantity: 5)
@@ -60,6 +70,16 @@ describe Item, type: :model do
       @review_3 = @chain.reviews.create(title: "Meh place", content: "They have meh bike stuff and I probably won't come back", rating: 1)
       @review_4 = @chain.reviews.create(title: "Not too impressed", content: "v basic bike shop", rating: 2)
       @review_5 = @chain.reviews.create(title: "Okay place :/", content: "Brian's cool and all but just an okay selection of items", rating: 3)
+
+      @user = User.create!(name: "Batman",
+                            address: "Some dark cave 11",
+                            city: "Arkham",
+                            state: "CO",
+                            zip: "81301",
+                            email: 'batmansemail@email.com',
+                            password: "password")
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
     end
 
     it "calculate average review" do
@@ -76,16 +96,16 @@ describe Item, type: :model do
 
     it 'no orders' do
       expect(@chain.no_orders?).to eq(true)
-      order = Order.create(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
+      order = @user.orders.create(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
       order.item_orders.create(item: @chain, price: @chain.price, quantity: 2)
       expect(@chain.no_orders?).to eq(false)
     end
 
     it 'quantity_sold' do
-      order = Order.create!(name: "Ed", address: "123 Main st", city: 'Denver', state: 'CO', zip: 12334)
+      order = @user.orders.create!(name: "Ed", address: "123 Main st", city: 'Denver', state: 'CO', zip: 12334)
       item_order = ItemOrder.create!(item: @chain, order: order, price: 50, quantity: 4)
 
-      order2 = Order.create!(name: "Ed", address: "123 Main st", city: 'Denver', state: 'CO', zip: 12334)
+      order2 = @user.orders.create!(name: "Ed", address: "123 Main st", city: 'Denver', state: 'CO', zip: 12334)
       item_order2 = ItemOrder.create!(item: @chain, order: order, price: 50, quantity: 3)
 
       expect(@chain.quantity_sold).to eq(7)

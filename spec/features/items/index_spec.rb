@@ -10,6 +10,14 @@ RSpec.describe "Items Index Page" do
 
       @pull_toy = @brian.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
       @dog_bone = @brian.items.create(name: "Dog Bone", description: "They'll love it!", price: 21, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", active?:false, inventory: 21)
+
+      @user = User.create!(name: "Batman",
+                            address: "Some dark cave 11",
+                            city: "Arkham",
+                            state: "CO",
+                            zip: "81301",
+                            email: 'batmansemail@email.com',
+                            password: "password")
     end
 
     it "all items or merchant names are links" do
@@ -71,7 +79,7 @@ RSpec.describe "Items Index Page" do
       dog_bone = @brian.items.create(name: "Dog Bone", description: "They'll love it!", price: 21, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", active?:true, inventory: 21)
       lizard_head = @brian.items.create(name: "Lizard Head", description: "Yummy", price: 500, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", active?:true, inventory: 21)
       barbie = @brian.items.create(name: "Barbie", description: "Very Pink", price: 1000, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", active?:true, inventory: 21)
-      order = Order.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
+      order = @user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
 
       order.item_orders.create(item: tire, price: tire.price, quantity: 2)
       order.item_orders.create(item: pull_toy, price: pull_toy.price, quantity: 5)
