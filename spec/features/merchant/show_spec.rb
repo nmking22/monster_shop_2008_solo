@@ -30,4 +30,14 @@ describe "As a merchant employee, when I visit '/merchant'" do
     expect(page).to have_content(@user.name)
     expect(page).to have_content(@dog_shop.full_address)
   end
+
+  it 'I see a link to view my own items which redirects me to /merchant/items.' do
+    visit '/merchant'
+
+    expect(page).to have_link('View My Items')
+
+    click_link 'View My Items'
+
+    expect(current_path).to eq('/merchant/items')
+  end
 end
