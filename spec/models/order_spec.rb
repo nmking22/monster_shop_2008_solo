@@ -7,6 +7,7 @@ describe Order, type: :model do
     it { should validate_presence_of :city }
     it { should validate_presence_of :state }
     it { should validate_presence_of :zip }
+    it { should validate_presence_of :status }
   end
 
   describe "relationships" do
@@ -30,7 +31,7 @@ describe Order, type: :model do
                             zip: "81301",
                             email: 'batmansemail@email.com',
                             password: "password")
-                            
+
       @order_1 = @user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
 
 
@@ -39,6 +40,10 @@ describe Order, type: :model do
     end
     it 'grandtotal' do
       expect(@order_1.grandtotal).to eq(230)
+    end
+
+    it 'total_quantity_of_items' do
+      expect(@order_1.total_quantity_of_items).to eq(5)
     end
   end
 end
