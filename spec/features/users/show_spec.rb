@@ -98,4 +98,34 @@ describe 'As a user, when I visit user show' do
 
     expect(current_path).to eq('/profile')
   end
+
+  it 'I cannot see My Orders link if I have no orders.' do
+    visit '/profile'
+
+    expect(page).not_to have_link('My Orders')
+  end
+
+  it 'The My Orders link takes me to /profile/orders if I have orders.' do
+    order_1 = Order.create!(
+      name: 'Rodrigo',
+      address: '2 1st St.',
+      city: 'South Park',
+      state: 'CO',
+      zip: '84125'
+    )
+
+    order_2 = Order.create!(
+      name: 'Ogirdor',
+      address: '1 2nd St.',
+      city: 'Bloomington',
+      state: 'IN',
+      zip: '24125'
+    )
+
+    visit '/profile'
+    expect(page).to have_link('My Orders')
+    click_on 'My Orders'
+    expect(current_path).to eq('/profile/orders')
+    save_and_open_page
+  end
 end

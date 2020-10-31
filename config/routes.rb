@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get '/profile', to: 'users#show'
   get '/profile/edit', to: 'users#edit'
   patch '/profile', to: 'users#update'
+  get '/profile/orders', to: 'orders#index'
 
   get '/profile/orders', to: 'users_orders#index'
 
