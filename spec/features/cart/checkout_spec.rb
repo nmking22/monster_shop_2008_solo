@@ -49,6 +49,38 @@ RSpec.describe 'Cart show' do
         expect(page).to have_link("Register")
       end
     end
+
+    it 'As a registered user, I can checkout' do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+
+      visit "/cart"
+
+      expect(page).to have_link("Checkout")
+
+      click_on "Checkout"
+
+      expect(current_path).to eq("/orders/new")
+
+      fill_in :name, with: @user.name
+      fill_in :address, with: @user.address
+      fill_in :city, with: @user.city
+      fill_in :state, with: @user.state
+      fill_in :zip, with: @user.zip
+
+      click_on 'Create Order'
+      expect(current_path).to eq('/profile/orders')
+
+      save_and_open_page
+
+      expect(page).to have_content("The order was created")
+      expect(page).to have_content("Cart: 0")
+
+      expect(page).to have_content(@user.name)
+      expect(page).to have_content(@user.address)
+      expect(page).to have_content(@user.city)
+      expect(page).to have_content(@user.state)
+      expect(page).to have_content(@user.zip)
+    end
   end
 
   describe 'When I havent added items to my cart' do
