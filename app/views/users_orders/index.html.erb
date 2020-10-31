@@ -7,9 +7,9 @@
 <ol>
   <% @orders.each do |order| %>
     <li class="shipping-address">
-      <p>
-        Order Id: <%= link_to "#{order.id}", "/orders/#{order.id}" %>
-      </p>
+      <section class="order-<%= order.id %>">
+          Order Id: <%= link_to "#{order.id}", "/profile/orders/#{order.id}"%>
+      </section>
       <p>Order Name: <%= order.name %></p>
       <p>Order Address: <%= order.address %></p>
       <p>Order City: <%= order.city %></p>
