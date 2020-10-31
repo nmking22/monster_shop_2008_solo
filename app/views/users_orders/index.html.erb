@@ -1,14 +1,25 @@
 <h1>All orders for <%= @user.name %></h1>
+<p>Address: <%= @user.address%></p>
+<p>City: <%= @user.city%></p>
+<p>State: <%= @user.state%></p>
+<p>Zip: <%= @user.zip%></p>
 
 <ol>
   <% @orders.each do |order| %>
     <li class="shipping-address">
-      <p>Order Id: <%= order.id %></p>
+      <p>
+        Order Id: <%= link_to "#{order.id}", "/orders/#{order.id}" %>
+      </p>
       <p>Order Name: <%= order.name %></p>
       <p>Order Address: <%= order.address %></p>
       <p>Order City: <%= order.city %></p>
       <p>Order State: <%= order.state %></p>
       <p>Order Zip: <%= order.zip %></p>
+      <p>Order Created: <%= order.created_at %></p>
+      <p>Order Updated: <%= order.updated_at %></p>
+      <p>Order Grandtotal: <%= order.grandtotal %></p>
+      <p>Order Status: <%= order.status %></p>
+      <p>Order Quantity of Items: <%= order.total_quantity_of_items %></p>
     </li>
   <% end %>
 </ol>

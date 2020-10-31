@@ -106,7 +106,7 @@ describe 'As a user, when I visit user show' do
   end
 
   it 'The My Orders link takes me to /profile/orders if I have orders.' do
-    order_1 = Order.create!(
+    order_1 = @user.orders.create!(
       name: 'Rodrigo',
       address: '2 1st St.',
       city: 'South Park',
@@ -114,7 +114,7 @@ describe 'As a user, when I visit user show' do
       zip: '84125'
     )
 
-    order_2 = Order.create!(
+    order_2 = @user.orders.create!(
       name: 'Ogirdor',
       address: '1 2nd St.',
       city: 'Bloomington',
@@ -126,6 +126,39 @@ describe 'As a user, when I visit user show' do
     expect(page).to have_link('My Orders')
     click_on 'My Orders'
     expect(current_path).to eq('/profile/orders')
-    save_and_open_page
+  end
+
+  it 'I see all of my orders' do
+    order_1 = @user.orders.create!(
+      name: 'Rodrigo',
+      address: '2 1st St.',
+      city: 'South Park',
+      state: 'CO',
+      zip: '84125'
+    )
+
+    order_2 = @user.orders.create!(
+      name: 'Ogirdor',
+      address: '1 2nd St.',
+      city: 'Bloomington',
+      state: 'IN',
+      zip: '24125'
+    )
+
+    visit '/profile/orders'
+
+    expect(page).to have_link(order_1.id)
+    expect(page).to have_content(order_1.created_at)
+    expect(page).to have_content(order_1.updated_at)
+    expect(page).to have_content(order_1.status)
+    expect(page).to have_content(order_1.total_quantity_of_items)
+    expect(page).to have_content(order_1.grandtotal)
+
+    expect(page).to have_link(order_2.id)
+    expect(page).to have_content(order_2.created_at)
+    expect(page).to have_content(order_2.updated_at)
+    expect(page).to have_content(order_2.status)
+    expect(page).to have_content(order_2.total_quantity_of_items)
+    expect(page).to have_content(order_2.grandtotal)
   end
 end
