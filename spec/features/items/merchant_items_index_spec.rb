@@ -46,6 +46,7 @@ RSpec.describe "Merchant Items Index Page" do
       #   expect(page).to_not have_content(@shifter.description)
       #   expect(page).to have_content("Inventory: #{@shifter.inventory}")
       # end
+
     end
   end
 end
