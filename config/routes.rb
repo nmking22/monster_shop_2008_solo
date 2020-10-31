@@ -45,10 +45,10 @@ Rails.application.routes.draw do
   delete "/cart/:item_id", to: "cart#remove_item"
 
   namespace :admin do
-    get '/', to: 'dashboard#index'
+    get '/', to: 'dashboard#show'
   end
 
   namespace :merchant do
-    get '/', to: 'dashboard#index'
+    get '/', to: 'dashboard#show'
   end
 end
