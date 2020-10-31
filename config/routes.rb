@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   get '/profile/edit', to: 'users#edit'
   patch '/profile', to: 'users#update'
   get '/profile/orders', to: 'users_orders#index'
+  get '/profile/orders/:id', to: 'orders#show'
 
   # password
   # resources :password, only: [:edit, :update]
