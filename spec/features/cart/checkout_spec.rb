@@ -70,8 +70,6 @@ RSpec.describe 'Cart show' do
       click_on 'Create Order'
       expect(current_path).to eq('/profile/orders')
 
-      save_and_open_page
-
       expect(page).to have_content("The order was created")
       expect(page).to have_content("Cart: 0")
 
