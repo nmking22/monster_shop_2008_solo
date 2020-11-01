@@ -44,11 +44,17 @@ Rails.application.routes.draw do
   delete "/cart", to: "cart#empty"
   delete "/cart/:item_id", to: "cart#remove_item"
 
+# admin
   namespace :admin do
-    get '/', to: 'dashboard#index'
+    get '/', to: 'dashboard#show'
+    resources :merchants, only: [:index, :show, :update]
+    # get '/merchants/:id/edit', to: 'merchants#edit'
+    # get '/merchants/:merchant_id', to: 'merchants#show'
   end
 
+# merchant
   namespace :merchant do
-    get '/', to: 'dashboard#index'
+    get '/', to: 'dashboard#show'
+    get '/items', to: 'items#index'
   end
 end

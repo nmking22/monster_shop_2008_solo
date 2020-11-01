@@ -25,6 +25,7 @@ RSpec.describe 'Logging In' do
   end
 
   it 'can log in as merchant user with valid credentials' do
+    bike_shop = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
     user = User.create!(name: "Batman",
                         address: "Some dark cave 11",
                         city: "Arkham",
@@ -32,7 +33,8 @@ RSpec.describe 'Logging In' do
                         zip: "81301",
                         email: 'batmansemail@email.com',
                         password: "password",
-                        role: 1)
+                        role: 1,
+                        merchant: bike_shop)
 
     visit '/login'
 
@@ -101,6 +103,7 @@ RSpec.describe 'Logging In' do
   end
 
   it 'redirects before creation if already logged in as merchant user' do
+    bike_shop = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
     user = User.create!(name: "Batman",
                         address: "Some dark cave 11",
                         city: "Arkham",
@@ -108,7 +111,8 @@ RSpec.describe 'Logging In' do
                         zip: "81301",
                         email: 'batmansemail@email.com',
                         password: "password",
-                        role: 1)
+                        role: 1,
+                        merchant: bike_shop)
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
 
     visit '/login'

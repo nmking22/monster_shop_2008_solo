@@ -1,5 +1,5 @@
 class Merchant::DashboardController < Merchant::BaseController
-  def index
+  def show
 
   end
 end
