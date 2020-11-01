@@ -18,6 +18,9 @@ class Admin::MerchantsController < Admin::BaseController
       redirect_to '/merchants', notice: "#{@merchant.name} has been disabled."
     else
       @merchant.update(enabled?: true)
+      @merchant.items.each do |item|
+        item.update(active?: true)
+      end
       redirect_to '/merchants', notice: "#{@merchant.name}'s account has been enabled."
     end
   end
