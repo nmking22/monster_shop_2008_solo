@@ -57,6 +57,7 @@ RSpec.describe 'merchant index page', type: :feature do
 
       expect(page).to have_content(@cat_shop.address)
     end
+
     describe "When I visit '/admin/merchants' and click on a 'Disable' button" do
       it "I am returned to '/admin/merchants' with that merchant disabled and a flash message" do
         visit '/admin/merchants'
@@ -73,6 +74,7 @@ RSpec.describe 'merchant index page', type: :feature do
 
         expect(page).to have_content("#{@cat_shop.name} has been disabled.")
       end
+
       it 'Then all items for that merchant are deactivated' do
         pull_toy = @dog_shop.items.create(
           name: "Pull Toy",
@@ -96,10 +98,31 @@ RSpec.describe 'merchant index page', type: :feature do
         end
 
         expect(current_path).to eq('/merchants')
-        
+
         @dog_shop.items.each do |item|
           expect(item.active?).to eq(false)
         end
+      end
+    end
+
+    describe "When I visit '/admin/merchants' and click on an 'Enable' button" do
+      it "I am returned to '/admin/merchants' with that merchant enabled and a flash message" do
+        @dog_shop.update(enabled?: false)
+        visit '/admin/merchants'
+
+        within "#merchant-#{@dog_shop.id}" do
+          expect(page).to have_content('Disabled')
+          click_button 'Enable Merchant'
+        end
+
+        expect(current_path).to eq('/merchants')
+
+        within "#merchant-#{@dog_shop.id}" do
+          # expect(page).to have_content('Enabled')
+          expect(page).to have_button('Disable Merchant')
+        end
+
+        expect(page).to have_content("#{@dog_shop.name}'s account has been enabled.")
       end
     end
   end
