@@ -54,6 +54,13 @@ describe Order, type: :model do
        expect(@order_1.item_orders.first.status).to eq('unfulfilled')
      end
 
+     it '#order_fulfilled' do
+       expect(@order_1.status).to eq('pending')
+       @order_1.item_orders.each{|order| order.status = 'fulfilled' }
+       @order_1.order_fulfilled
+       expect(@order_1.status).to eq('packaged')
+     end
+
   end
 
 
