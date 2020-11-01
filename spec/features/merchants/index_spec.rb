@@ -55,7 +55,6 @@ RSpec.describe 'merchant index page', type: :feature do
       expect(current_path).to eq("/merchants/#{@cat_shop.id}")
 
       expect(page).to have_content(@cat_shop.address)
-      save_and_open_page
     end
   end
 end
