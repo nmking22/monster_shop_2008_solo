@@ -10,10 +10,15 @@ class Admin::MerchantsController < Admin::BaseController
 
   def update
     @merchant = Merchant.find(params[:id])
-    @merchant.update(enabled?: false)
-    @merchant.items.each do |item|
-      item.update(active?: false)
+    if @merchant.enabled?
+      @merchant.update(enabled?: false)
+      @merchant.items.each do |item|
+        item.update(active?: false)
+      end
+      redirect_to '/merchants', notice: "#{@merchant.name} has been disabled."
+    else
+      @merchant.update(enabled?: true)
+      redirect_to '/merchants', notice: "#{@merchant.name}'s account has been enabled."
     end
-    redirect_to '/merchants', notice: "#{@merchant.name} has been disabled."
   end
 end
