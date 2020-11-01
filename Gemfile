@@ -16,6 +16,7 @@ gem 'coffee-rails', '~> 4.2'
 gem 'jbuilder', '~> 2.5'
 gem 'bcrypt'
 
+
 gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
@@ -26,6 +27,7 @@ group :development, :test do
   gem 'pry'
   gem 'simplecov'
   gem 'shoulda-matchers'
+  gem 'orderly'
 end
 
 group :development do
