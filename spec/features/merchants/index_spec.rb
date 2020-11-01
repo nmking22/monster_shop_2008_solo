@@ -60,6 +60,7 @@ RSpec.describe 'merchant index page', type: :feature do
     describe "When I visit '/admin/merchants' and click on a 'Disable' button" do
       it "I am returned to '/admin/merchants' with that merchant disabled and a flash message" do
         visit '/admin/merchants'
+
         within "#merchant-#{@cat_shop.id}" do
           click_button 'Disable Merchant'
         end
@@ -71,6 +72,34 @@ RSpec.describe 'merchant index page', type: :feature do
         end
 
         expect(page).to have_content("#{@cat_shop.name} has been disabled.")
+      end
+      it 'Then all items for that merchant are deactivated' do
+        pull_toy = @dog_shop.items.create(
+          name: "Pull Toy",
+          description: "Great pull toy!",
+          price: 10,
+          image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg",
+          inventory: 32
+        )
+        dog_bone = @dog_shop.items.create(
+          name: "Dog Bone",
+          description: "They'll love it!",
+          price: 21,
+          image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg",
+          inventory: 21
+        )
+
+        visit '/admin/merchants'
+
+        within "#merchant-#{@dog_shop.id}" do
+          click_button 'Disable Merchant'
+        end
+
+        expect(current_path).to eq('/merchants')
+        
+        @dog_shop.items.each do |item|
+          expect(item.active?).to eq(false)
+        end
       end
     end
   end
