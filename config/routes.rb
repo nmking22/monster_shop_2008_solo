@@ -47,7 +47,9 @@ Rails.application.routes.draw do
 # admin
   namespace :admin do
     get '/', to: 'dashboard#show'
-    get '/merchants/:merchant_id', to: 'merchants#show'
+    resources :merchants, only: [:index, :show, :update]
+    # get '/merchants/:id/edit', to: 'merchants#edit'
+    # get '/merchants/:merchant_id', to: 'merchants#show'
   end
 
 # merchant
