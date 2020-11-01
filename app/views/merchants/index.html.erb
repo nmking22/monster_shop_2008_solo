@@ -10,6 +10,7 @@
           <% if merchant.enabled? %>
             <%= button_to "Disable Merchant", "/admin/merchants/#{merchant.id}", method: :patch %>
           <% else %>
+            <%= button_to "Enable Merchant", "/admin/merchants/#{merchant.id}", method: :patch %>
             <p>Disabled</p>
           <% end %>
       <% else %>
