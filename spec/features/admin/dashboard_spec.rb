@@ -52,7 +52,6 @@ RSpec.describe 'Admin dashboard' do
     it 'can see all orders info sorted by order status' do
 
       visit '/admin'
-
       expect(@order_3.name).to appear_before(@order_2.name)
       expect(@order_2.name).to appear_before(@order_1.name)
         within ".order-#{@order_1.id}" do
@@ -62,6 +61,17 @@ RSpec.describe 'Admin dashboard' do
           click_on "#{@order_1.user.name}"
         end
       expect(current_path).to eq("/admin/users/#{@user.id}")
+    end
+
+    it 'can ship an order' do
+      visit '/admin'
+      within ".order-#{@order_3.id}" do
+        click_on "Ship Order"
+        expect(page).to have_content('shipped')
+        expect(page).to_not have_content('Cancel Order')
+      end
+
+
     end
   end
 end
