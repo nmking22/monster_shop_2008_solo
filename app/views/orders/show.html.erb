@@ -22,6 +22,7 @@
       <td><p><%= @order.grandtotal %> </p></td>
     </tr>
   </table>
+  <p> <%= link_to "Cancel Order", "/profile/orders/#{@order.id}", method: :patch %> </p>
 </section>
 
 <h1 align = "center">Order Info</h1>
