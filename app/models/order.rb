@@ -18,9 +18,15 @@ class Order <ApplicationRecord
     item_orders.each do |order|
       if order.status == 'fulfilled'
        order.item.inventory += order.quantity
-     end   #we need to test to make sure this is this doing the thing 
+     end   #we need to test to make sure this is this doing the thing
        order.status = 'unfulfilled'
      end
+  end
+
+  def order_fulfilled
+    if item_orders.all?{|order| order.status == 'fulfilled'}
+      self.update(status: 'packaged')
+    end
   end
 
 end
