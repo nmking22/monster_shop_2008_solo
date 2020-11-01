@@ -24,4 +24,38 @@ RSpec.describe 'merchant index page', type: :feature do
       expect(current_path).to eq("/merchants/new")
     end
   end
+
+  describe 'As an admin' do
+    before :each do
+      @cat_shop = Merchant.create(
+        name: "Nick's Cat Shop",
+        address: '125 Catman St.',
+        city: 'Denver',
+        state: 'CO',
+        zip: 80210
+      )
+
+      @user = User.create!(
+        name: "Catman",
+        address: "Some Straw Hole",
+        city: "Treehouse",
+        state: "CO",
+        zip: "81301",
+        email: 'catman4evr@email.com',
+        password: "strawman",
+        role: 2)
+
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+    end
+
+    it "I can see a merchant's dashboard." do
+      visit "/merchants"
+
+      click_on "#{@cat_shop.name}"
+      expect(current_path).to eq("/merchants/#{@cat_shop.id}")
+
+      expect(page).to have_content(@cat_shop.address)
+      save_and_open_page
+    end
+  end
 end
