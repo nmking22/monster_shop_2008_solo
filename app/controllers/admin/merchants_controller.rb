@@ -10,7 +10,7 @@ class Admin::MerchantsController < Admin::BaseController
 
   def update
     @merchant = Merchant.find(params[:id])
-    @merchant.update(enabled: false)
+    @merchant.update(enabled?: false)
     @merchant.items.each do |item|
       item.update(active?: false)
     end
