@@ -10,7 +10,8 @@ describe Merchant, type: :model do
   end
 
   describe "relationships" do
-    it {should have_many :items}
+    it { should have_many :items }
+    it { should have_many :users }
   end
 
   describe 'instance methods' do
@@ -61,5 +62,8 @@ describe Merchant, type: :model do
       expect(@meg.distinct_cities).to include("Hershey")
     end
 
+    it '#full_address' do
+      expect(@meg.full_address).to eq("123 Bike Rd., Denver, CO 80203")
+    end
   end
 end
