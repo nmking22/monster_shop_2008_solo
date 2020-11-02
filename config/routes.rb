@@ -25,6 +25,9 @@ Rails.application.routes.draw do
   get '/profile/edit', to: 'users#edit'
   patch '/profile', to: 'users#update'
   get '/profile/orders', to: 'users_orders#index'
+  get '/profile/orders/:id', to: 'orders#show'
+  patch '/profile/orders/:id', to: 'orders#update'
+
 
   # password
   # resources :password, only: [:edit, :update]
@@ -46,10 +49,10 @@ Rails.application.routes.draw do
 
 # admin
   namespace :admin do
-    get '/', to: 'dashboard#show'
     resources :merchants, only: [:index, :show, :update]
-    # get '/merchants/:id/edit', to: 'merchants#edit'
-    # get '/merchants/:merchant_id', to: 'merchants#show'
+    get '/', to: 'dashboard#index'
+    get '/users/:id', to:'users_dashboard#show'
+    patch '/users/:id/orders/:order_id', to:'users_dashboard#update'
   end
 
 # merchant
@@ -57,4 +60,6 @@ Rails.application.routes.draw do
     get '/', to: 'dashboard#show'
     get '/items', to: 'items#index'
   end
+
+
 end

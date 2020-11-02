@@ -9,13 +9,20 @@
       <th>Zip</th>
     </tr>
     <tr>
+      <td><p><%= @order.id %> </p></td>
       <td><p><%= @order.name %> </p></td>
       <td><p><%= @order.address %> </p></td>
       <td><p><%= @order.city %> </p></td>
       <td><p><%= @order.state %> </p></td>
       <td><p><%= @order.zip %> </p></td>
+      <td><p><%= @order.status %> </p></td>
+      <td><p><%= @order.updated_at %> </p></td>
+      <td><p><%= @order.created_at %> </p></td>
+      <td><p><%= @order.total_quantity_of_items %> </p></td>
+      <td><p><%= @order.grandtotal %> </p></td>
     </tr>
   </table>
+  <p> <%= link_to "Cancel Order", "/profile/orders/#{@order.id}", method: :patch %> </p>
 </section>
 
 <h1 align = "center">Order Info</h1>
@@ -35,6 +42,8 @@
         <td><p><%= link_to item_order.item.merchant.name, "/merchants/#{item_order.item.merchant.id}"%></p></td>
         <td><p><%= number_to_currency(item_order.price)%></p></td>
         <td><p><%= item_order.quantity%></p></td>
+        <td><p><%= item_order.item.description%></p></td>
+        <td><p><%= image_tag item_order.item.image %></p></td>
         <td><p><%= number_to_currency(item_order.subtotal)%></p></td>
       </section>
     </tr>

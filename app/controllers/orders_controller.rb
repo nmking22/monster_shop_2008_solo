@@ -33,6 +33,13 @@ class OrdersController <ApplicationController
     end
   end
 
+  def update
+    order = Order.find(params[:id])
+    order.cancel_order
+    flash[:success] = "Your order was cancelled"
+    redirect_to profile_path
+  end
+
 
   private
 
