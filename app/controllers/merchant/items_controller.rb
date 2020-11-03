@@ -29,16 +29,17 @@ class Merchant::ItemsController < Merchant::BaseController
 
   def update
     @item = Item.find(params[:id])
-    if @item.update(item_params)
+    if @item.update(item_params) && !params[:toggle]
       set_default_image
       @item.save
       flash[:notice] = "The #{@item.name} has been updated."
       redirect_to '/merchant/items'
-    # else
-    end
-    if params[:toggle] == 'true'
+    elsif params[:toggle] == 'true'
       toggle_activation
       redirect_to "/merchant/items"
+    else
+      flash[:error] = @item.errors.full_messages.to_sentence
+      render :edit
     end
   end
 
