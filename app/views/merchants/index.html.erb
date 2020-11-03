@@ -9,13 +9,17 @@
         </h2>
           <% if merchant.enabled? %>
             <%= button_to "Disable Merchant", "/admin/merchants/#{merchant.id}", method: :patch %>
+            <p>Enabled</p>
           <% else %>
             <%= button_to "Enable Merchant", "/admin/merchants/#{merchant.id}", method: :patch %>
             <p>Disabled</p>
           <% end %>
       <% else %>
         <h2><%=link_to merchant.name, "/merchants/#{merchant.id}"%></h2>
+
       <% end  %>
+      <p>City: <%= merchant.city %> </p>
+      <p>State: <%= merchant.state %> </p>
     </section>
   <% end %>
 </section>
