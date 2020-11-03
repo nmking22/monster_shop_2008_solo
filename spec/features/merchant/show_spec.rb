@@ -93,7 +93,7 @@ describe "As a merchant employee, when I visit '/merchant'" do
     )
 
     visit '/merchant'
-save_and_open_page
+
     expect(page).to have_content("Pending Orders")
 
     within "#order-#{order_1.id}" do
