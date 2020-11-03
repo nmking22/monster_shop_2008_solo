@@ -31,14 +31,14 @@ describe "As a merchant employee, when I visit '/merchant'" do
     @tire = @bike_shop.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
   end
 
-  xit 'I see the name and full address of the merchant I work for' do
+  it 'I see the name and full address of the merchant I work for' do
     visit '/merchant'
 
     expect(page).to have_content(@user.name)
     expect(page).to have_content(@dog_shop.full_address)
   end
 
-  xit 'I see a link to view my own items which redirects me to /merchant/items.' do
+  it 'I see a link to view my own items which redirects me to /merchant/items.' do
     visit '/merchant'
 
     expect(page).to have_link('View My Items')
