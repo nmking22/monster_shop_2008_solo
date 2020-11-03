@@ -31,7 +31,7 @@ describe "As a merchant when I visit my items index page" do
     @tire = @bike_shop.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
   end
 
-  it "I see all of my items and their info" do
+  it "I see all of my items and their info, and deactivate" do
     visit '/merchant/items'
 
     within "#item-#{@pull_toy.id}" do
@@ -64,6 +64,32 @@ describe "As a merchant when I visit my items index page" do
       expect(page).to have_content(@dog_bone.inventory)
 
       expect(page).to_not have_link("Deactivate Item")
+    end
+  end
+
+  it "I can activate an item" do
+    visit '/merchant/items'
+
+    within "#item-#{@dog_bone.id}" do
+      expect(page).to have_content(@dog_bone.name)
+      expect(page).to have_content(@dog_bone.description)
+      expect(page).to have_content(@dog_bone.price)
+      expect(page).to have_css("img[src*='#{@dog_bone.image}']")
+      expect(page).to have_content("Inactive")
+      expect(page).to have_content(@dog_bone.inventory)
+
+      expect(page).to_not have_link("Deactivate Item")
+      click_link "Activate Item"
+    end
+
+    expect(current_path).to eq("/merchant/items")
+    expect(page).to have_content("The item is for sale")
+
+    within "#item-#{@dog_bone.id}" do
+      expect(page).to have_content("Active")
+      @dog_bone = Item.find(@dog_bone.id)
+      expect(@dog_bone.active?).to eq(true)
+      expect(page).to_not have_link("Activate Item")
     end
   end
 end
