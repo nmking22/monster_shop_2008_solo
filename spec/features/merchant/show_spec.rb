@@ -100,18 +100,16 @@ describe "As a merchant employee, when I visit '/merchant'" do
       expect(page).to have_link("#{order_1.id}")
       expect(page).to have_content("#{order_1.created_at}")
       expect(page).to have_content("#{order_1.total_quantity_of_items}")
-      expect(page).to have_content("#{number_to_currency(order_1.grandtotal)}")
+      expect(page).to have_content("$10.00")
     end
 
     # no content because order status is shipped
     expect(page).not_to have_link("#{order_2.id}")
     expect(page).not_to have_content("#{order_2.total_quantity_of_items}")
-    expect(page).not_to have_content("#{number_to_currency(order_2.grandtotal)}")
 
     # no content because order assigned to different merchant
     expect(page).not_to have_link("#{order_3.id}")
     expect(page).not_to have_content("#{order_3.total_quantity_of_items}")
-    expect(page).not_to have_content("#{number_to_currency(order_3.grandtotal)}")
 
   end
 end
