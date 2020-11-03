@@ -29,15 +29,16 @@
       <p>Description: <%= item.description %> </p>
       <p>Price: <%=number_to_currency(item.price) %> </p>
       <p>Inventory: <%= item.inventory %> </p>
+      <%= link_to "Edit Item", "/merchant/items/#{item.id}/edit" %>
       <% if item.no_orders? %>
         <%= link_to "Delete Item", "/merchant/items/#{item.id}", method: :delete%>
       <% end %>
       <% if item.active? %>
         <p>Active</p>
-        <%= link_to "Deactivate Item", "/merchant/items/#{item.id}", method: :patch %>
+        <%= link_to "Deactivate Item", "/merchant/items/#{item.id}?toggle=true", method: :patch %>
       <% else %>
         <p>Inactive</p>
-        <%= link_to "Activate Item", "/merchant/items/#{item.id}", method: :patch %>
+        <%= link_to "Activate Item", "/merchant/items/#{item.id}?toggle=true", method: :patch %>
       <% end %>
     </section>
   <% end %>
