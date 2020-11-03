@@ -33,5 +33,4 @@ describe ItemOrder, type: :model do
       expect(item_order_1.subtotal).to eq(200)
     end
   end
-
 end
