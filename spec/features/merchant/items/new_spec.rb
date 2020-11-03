@@ -25,7 +25,7 @@ describe 'When I visit my items page as a merchant employee' do
     @pull_toy = @dog_shop.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
   end
 
-  it 'I can add a new item' do
+  it 'I can add a new item if all details are present' do
     visit '/merchant/items'
 
     click_on "Add A New Item"
@@ -43,6 +43,22 @@ describe 'When I visit my items page as a merchant employee' do
     expect(page).to have_content('Tennis Ball')
     expect(page).not_to have_content('Inactive')
     expect(page).to have_css("img[src*='https://breakthrough.org/wp-content/uploads/2018/10/default-placeholder-image.png']")
-    save_and_open_page
+  end
+
+  it 'I cannot add a new item if any details are bad/missing' do
+    visit '/merchant/items'
+
+    click_on "Add A New Item"
+
+    fill_in :name, with: "Frisbee"
+    fill_in :description, with: ""
+    fill_in :price, with: 0
+    fill_in :inventory, with: 0
+    click_button "Create Item"
+
+    expect(page).to have_content("Description can't be blank, Price must be greater than 0, and Inventory must be greater than 0")
+    click_button "Create Item"
+
+    expect(page).to have_field(:name, with: "Frisbee")
   end
 end
