@@ -7,7 +7,6 @@ class Order <ApplicationRecord
 
   enum status: [:packaged, :pending, :shipped, :cancelled]
 
-
   def grandtotal
     item_orders.sum('price * quantity')
   end
@@ -21,7 +20,7 @@ class Order <ApplicationRecord
     item_orders.each do |order|
       if order.status == 'fulfilled'
        order.item.inventory += order.quantity
-     end   #we need to test to make sure this is this doing the thing
+      end   #we need to test to make sure this is this doing the thing
        order.status = 'unfulfilled'
      end
   end
@@ -31,5 +30,4 @@ class Order <ApplicationRecord
       self.update(status: 'packaged')
     end
   end
-
 end

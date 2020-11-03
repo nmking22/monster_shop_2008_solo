@@ -11,7 +11,9 @@ describe Merchant, type: :model do
 
   describe "relationships" do
     it { should have_many :items }
+    it { should have_many(:item_orders).through(:items) }
     it { should have_many :users }
+    it { should have_many(:orders).through(:item_orders) }
   end
 
   describe 'instance methods' do
@@ -24,7 +26,9 @@ describe Merchant, type: :model do
                             state: "CO",
                             zip: "81301",
                             email: 'batmansemail@email.com',
-                            password: "password")
+                            password: "password",
+                            role: 1,
+                            merchant: @meg)
 
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
     end
@@ -64,6 +68,38 @@ describe Merchant, type: :model do
 
     it '#full_address' do
       expect(@meg.full_address).to eq("123 Bike Rd., Denver, CO 80203")
+    end
+
+    it '#pending_orders' do
+      order_1 = @user.orders.create!(
+          name: 'Ogirdor',
+          address: '1 2nd St.',
+          city: 'Bloomington',
+          state: 'IN',
+          zip: '24125'
+        )
+      order_2 = @user.orders.create!(
+          name: 'Drew Lock',
+          address: '1 2nd St.',
+          city: 'Bloomington',
+          state: 'IN',
+          zip: '24125',
+          status: 2
+        )
+        ItemOrder.create!(
+          item: @tire,
+          order: order_1,
+          quantity: 1,
+          price: (@tire.price * 1)
+        )
+        ItemOrder.create!(
+          item: @tire,
+          order: order_2,
+          quantity: 500,
+          price: (@tire.price * 500)
+        )
+
+      expect(@meg.pending_orders).to eq([order_1])
     end
   end
 end

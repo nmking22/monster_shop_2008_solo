@@ -49,4 +49,66 @@ describe "As a merchant employee, when I visit '/merchant'" do
     expect(page).to have_content(@dog_bone.name)
     expect(page).to have_no_content(@tire.name)
   end
+  it 'Can see pending orders with merchant items' do
+    order_1 = @user.orders.create!(
+        name: 'Ogirdor',
+        address: '1 2nd St.',
+        city: 'Bloomington',
+        state: 'IN',
+        zip: '24125'
+      )
+    order_2 = @user.orders.create!(
+        name: 'Drew Lock',
+        address: '1 2nd St.',
+        city: 'Bloomington',
+        state: 'IN',
+        zip: '24125',
+        status: 2
+      )
+    order_3 = @user.orders.create!(
+        name: 'Derek Carr',
+        address: '1 2nd St.',
+        city: 'Bloomington',
+        state: 'IN',
+        zip: '24125'
+      )
+    item_order = ItemOrder.create!(
+      item: @pull_toy,
+      order: order_1,
+      quantity: 1,
+      price: (@pull_toy.price * 1)
+    )
+    item_order = ItemOrder.create!(
+      item: @dog_bone,
+      order: order_2,
+      quantity: 500,
+      price: (@dog_bone.price * 500)
+    )
+    item_order = ItemOrder.create!(
+      item: @tire,
+      order: order_3,
+      quantity: 200,
+      price: (@tire.price * 200)
+    )
+
+    visit '/merchant'
+
+    expect(page).to have_content("Pending Orders")
+
+    within "#order-#{order_1.id}" do
+      expect(page).to have_link("#{order_1.id}")
+      expect(page).to have_content("#{order_1.created_at}")
+      expect(page).to have_content("#{order_1.total_quantity_of_items}")
+      expect(page).to have_content("$10.00")
+    end
+
+    # no content because order status is shipped
+    expect(page).not_to have_link("#{order_2.id}")
+    expect(page).not_to have_content("#{order_2.total_quantity_of_items}")
+
+    # no content because order assigned to different merchant
+    expect(page).not_to have_link("#{order_3.id}")
+    expect(page).not_to have_content("#{order_3.total_quantity_of_items}")
+
+  end
 end
