@@ -4,7 +4,6 @@ class Merchant::ItemsController < Merchant::BaseController
     user = User.find(current_user.id)
     @merchant = user.merchant
     @items = @merchant.items
-    # redirect_to '/items'
   end
 
   def new
@@ -19,8 +18,11 @@ class Merchant::ItemsController < Merchant::BaseController
     end
     if @item.save
       flash[:notice] = "Your new item has been saved!"
+      redirect_to '/merchant/items'
+    else
+      flash[:error] = @item.errors.full_messages.to_sentence
+      render :new
     end
-    redirect_to '/merchant/items'
   end
 
   def update
