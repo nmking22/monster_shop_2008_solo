@@ -7,6 +7,22 @@ class Merchant::ItemsController < Merchant::BaseController
     # redirect_to '/items'
   end
 
+  def new
+    @item = Item.new
+  end
+
+  def create
+    @item = Item.new(item_params)
+    @item.merchant = current_user.merchant
+    if @item.image.empty?
+      @item.image = 'https://breakthrough.org/wp-content/uploads/2018/10/default-placeholder-image.png'
+    end
+    if @item.save
+      flash[:notice] = "Your new item has been saved!"
+    end
+    redirect_to '/merchant/items'
+  end
+
   def update
     item = Item.find(params[:id])
     # US 47 might be impacted by the below, merchant editing items
@@ -25,5 +41,10 @@ class Merchant::ItemsController < Merchant::BaseController
     item.destroy!
     flash[:notice] = "The item is now deleted"
     redirect_to "/merchant/items"
+  end
+
+  private
+  def item_params
+    params.permit(:name, :description, :image, :price, :inventory)
   end
 end
