@@ -41,6 +41,7 @@ describe 'When I visit my items page as a merchant employee' do
     click_button 'Update Item'
     expect(current_path).to eq('/merchant/items')
 
+
     within "#item-#{@pull_toy.id}" do
       expect(page).to have_content(20)
       expect(page).to have_content('Active')
@@ -51,5 +52,21 @@ describe 'When I visit my items page as a merchant employee' do
   end
 
   it 'I cannot edit items if details are bad or missing' do
+    visit '/merchant/items'
+
+    within "#item-#{@pull_toy.id}" do
+      click_on 'Edit Item'
+    end
+
+    fill_in :price, with: 0
+    fill_in :image, with: ""
+    fill_in :inventory, with: 0
+    fill_in :description, with: ""
+    click_button 'Update Item'
+
+    expect(page).to have_content("Description can't be blank, Price must be greater than 0, and Inventory must be greater than 0")
+
+    expect(page).to have_field(:name, with: @pull_toy.name)
+    expect(page).to have_field(:price, with: 0)
   end
 end
