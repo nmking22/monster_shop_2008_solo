@@ -11,6 +11,7 @@ class Item <ApplicationRecord
   validates_presence_of :image, :allow_blank => true
   validates_inclusion_of :active?, :in => [true, false]
   validates_numericality_of :price, greater_than: 0
+  validates_numericality_of :inventory, greater_than: 0
 
   def self.top_five
       joins(:item_orders)
