@@ -1,0 +1,15 @@
+<h1>Order Placed By: <%= @order.name %></h1>
+
+<p>Address: <%= @order.full_address %></p>
+<% @order.item_orders.each do |item_order| %>
+  <section id = "item-order-<%= item_order.id %>"
+    <% if item_order.item.merchant_id == current_user.merchant_id %>
+      <p>Name: <%= link_to "#{item_order.item.name}", "/items/#{item_order.item.id}" %></p>
+      <section class = "item-show-item">
+        <img src= <%= item_order.item.image %>>
+      </section>
+      <p>Price: <%= number_to_currency(item_order.price) %></p>
+      <p>Quantity: <%= item_order.quantity %></p>
+    <% end %>
+  </section>
+<% end %>
