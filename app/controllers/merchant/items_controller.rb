@@ -13,9 +13,7 @@ class Merchant::ItemsController < Merchant::BaseController
   def create
     @item = Item.new(item_params)
     @item.merchant = current_user.merchant
-    if @item.image.empty?
-      @item.image = 'https://breakthrough.org/wp-content/uploads/2018/10/default-placeholder-image.png'
-    end
+    set_default_image
     if @item.save
       flash[:notice] = "Your new item has been saved!"
       redirect_to '/merchant/items'
@@ -25,17 +23,23 @@ class Merchant::ItemsController < Merchant::BaseController
     end
   end
 
+  def edit
+    @item = Item.find(params[:id])
+  end
+
   def update
-    item = Item.find(params[:id])
-    # US 47 might be impacted by the below, merchant editing items
-    if item.active?
-      item.update(active?: false)
-      flash[:notice] = "The item is no longer for sale"
-    else
-      item.update(active?: true)
-      flash[:notice] = "The item is for sale"
+    @item = Item.find(params[:id])
+    if @item.update(item_params)
+      set_default_image
+      @item.save
+      flash[:notice] = "The #{@item.name} has been updated."
+      redirect_to '/merchant/items'
+    # else
     end
-    redirect_to "/merchant/items"
+    if params[:toggle] == 'true'
+      toggle_activation
+      redirect_to "/merchant/items"
+    end
   end
 
   def destroy
@@ -48,5 +52,21 @@ class Merchant::ItemsController < Merchant::BaseController
   private
   def item_params
     params.permit(:name, :description, :image, :price, :inventory)
+  end
+
+  def toggle_activation
+    if @item.active?
+      @item.update(active?: false)
+      flash[:notice] = "The item is no longer for sale"
+    else
+      @item.update(active?: true)
+      flash[:notice] = "The item is for sale"
+    end
+  end
+
+  def set_default_image
+    if @item.image.empty?
+      @item.image = 'https://breakthrough.org/wp-content/uploads/2018/10/default-placeholder-image.png'
+    end
   end
 end
