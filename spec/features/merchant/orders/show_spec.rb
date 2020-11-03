@@ -84,7 +84,7 @@ describe "As a merchant employee when I visit an order show page" do
       click_link(@order_1.id)
     end
 
-    save_and_open_page
+
     expect(current_path).to eq("/merchant/orders/#{@order_1.id}")
 
     expect(page).to have_content(@order_1.name)
@@ -99,4 +99,32 @@ describe "As a merchant employee when I visit an order show page" do
 
     expect(page).not_to have_content(@tire.name)
   end
+
+  it 'can fulfill part of an order ' do
+    visit "/merchant/orders/#{@order_1.id}"
+      within "#item-order-#{@item_order_1.id}" do
+       click_on "Fulfill Item"
+      end
+    expect(current_path).to eq("/merchant/orders/#{@order_1.id}")
+      within "#item-order-#{@item_order_1.id}" do
+       expect(page).to have_content("Fulfilled")
+      end
+    expect(page).to have_content("#{@item_order_1.item.name} has been fulfilled")
+    
+    expect(Item.find(@pull_toy.id).inventory).to eq(31)
+  end
+
+  xit 'cant fulfill order if item_order quantity > item inventory' do
+
+    item_order_1 = ItemOrder.create!(
+      item: @pull_toy,
+      order: @order_1,
+      quantity: 35,
+      price: (@pull_toy.price * 1)
+    )
+    visit "/merchant/orders/#{@order_1.id}"
+      within "#item-order-#{@item_order_1.id}" do
+       expect(page).to have_content("Item can not be fulfilled due to lack of inventory.")
+      end
+    end
 end
