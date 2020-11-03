@@ -1,4 +1,4 @@
-class Merchant <ApplicationRecord
+class Merchant < ApplicationRecord
   has_many :items, dependent: :destroy
   has_many :item_orders, through: :items
   has_many :users
@@ -25,10 +25,6 @@ class Merchant <ApplicationRecord
 
   def distinct_cities
     item_orders.distinct.joins(:order).pluck(:city)
-  end
-
-  def full_address
-    "#{address}, #{city}, #{state} #{zip}"
   end
 
   def pending_orders
