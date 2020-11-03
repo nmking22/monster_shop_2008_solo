@@ -28,7 +28,8 @@
       <p>Description: <%= item.description %> </p>
       <p>Price: <%=number_to_currency(item.price) %> </p>
       <p>Inventory: <%= item.inventory %> </p>
-      <% if !@merchant %>
+      <% if item.no_orders? %>
+        <%= link_to "Delete Item", "/merchant/items/#{item.id}", method: :delete%>
       <% end %>
       <% if item.active? %>
         <p>Active</p>
