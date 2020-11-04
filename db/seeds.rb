@@ -14,11 +14,11 @@ Item.destroy_all
 
 #merchants
 pokemon_shop = Merchant.create(name: "Brett's Pokemon Shop", address: "5465 Fireball ln", city: "Alaska", state: "CO", zip: 90054)
-barbie_shop = Merchant.create(name: "Austin's Barbie Shop", address: "9898 Pink Flower Ave", city: "Delaware", state: "FL", zip: 8432)
-legos_shop = Merchant.create(name: "Nico's & Robertos Lego Shop", address: "1232 Building Block ln", city: "LA", state: "CA", zip: 90210)
+barbie_shop = Merchant.create(name: "Brian's Barbie Shop", address: "9898 Pink Flower Ave", city: "Delaware", state: "FL", zip: 8432)
+legos_shop = Merchant.create(name: "Eduardo's Lego Shop", address: "1232 Building Block ln", city: "LA", state: "CA", zip: 90210)
 bike_shop = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
 dog_shop = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
-scuba_shop = Merchant.create(name: "Jacks Scuba Shop", address: '8976 Ocean Ave', city: 'San Diego', state: 'CA', zip: 91191)
+scuba_shop = Merchant.create(name: "Nick's Scuba Shop", address: '8976 Ocean Ave', city: 'San Diego', state: 'CA', zip: 91191)
 
 #bike_shop items
 tire = bike_shop.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
