@@ -48,10 +48,21 @@ describe Order, type: :model do
     end
 
     it '#cancel_order' do
-       expect(@order_1.status).to eq('pending')
-       @order_1.cancel_order
-       expect(@order_1.status).to eq('cancelled')
-       expect(@order_1.item_orders.first.status).to eq('unfulfilled')
+      item_order_3 = @order_1.item_orders.create!(
+        item: @pull_toy,
+        price: @pull_toy.price,
+        quantity: 3,
+        status: "fulfilled"
+      )
+      
+      expect(@pull_toy.inventory).to eq(32)
+
+      expect(@order_1.status).to eq('pending')
+      @order_1.cancel_order
+      expect(@order_1.status).to eq('cancelled')
+      expect(@order_1.item_orders.first.status).to eq('unfulfilled')
+
+      expect(@pull_toy.inventory).to eq(35)
      end
 
      it '#order_fulfilled' do
