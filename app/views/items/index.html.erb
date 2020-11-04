@@ -26,13 +26,16 @@
         <h2> <%=link_to item.name, "/items/#{item.id}" %> </h2>
         <p>Sold by: <%=link_to item.merchant.name, "/merchants/#{item.merchant.id}" %></p>
         <%= link_to image_tag(item.image), item_path(item.id), class: "image-link" %> 
-        <p> <%= item.description unless @merchant%> </p>
+        <% if !@merchant %>
+          <p>Description: <%= item.description %> </p>
+        <% end %>
         <p>Price: <%=number_to_currency(item.price) %> </p>
         <p>Inventory: <%= item.inventory %> </p>
         <% if !@merchant %>
         <% end %>
         <% if item.active? %>
           <p>Active</p>
+          <%= link_to "Deactivate Item", "/merchant/items/#{item.id}", method: :patch %>
         <% else %>
           <p>Inactive</p>
         <% end %>

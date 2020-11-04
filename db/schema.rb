@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_01_204435) do
+ActiveRecord::Schema.define(version: 2020_11_03_190022) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 2020_11_01_204435) do
     t.string "name"
     t.string "description"
     t.integer "price"
-    t.string "image"
+    t.string "image", default: "https://breakthrough.org/wp-content/uploads/2018/10/default-placeholder-image.png"
     t.boolean "active?", default: true
     t.integer "inventory"
     t.bigint "merchant_id"

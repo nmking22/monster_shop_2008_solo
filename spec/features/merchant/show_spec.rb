@@ -27,7 +27,6 @@ describe "As a merchant employee, when I visit '/merchant'" do
 
     @pull_toy = @dog_shop.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
     @dog_bone = @dog_shop.items.create(name: "Dog Bone", description: "They'll love it!", price: 21, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", active?:false, inventory: 21)
-    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
     @tire = @bike_shop.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
   end
 
@@ -45,9 +44,9 @@ describe "As a merchant employee, when I visit '/merchant'" do
 
     click_link 'View My Items'
 
-    expect(current_path).to eq('/items')
+    expect(current_path).to eq('/merchant/items')
     expect(page).to have_content(@pull_toy.name)
-    expect(page).to have_no_content(@dog_bone.name)
+    expect(page).to have_content(@dog_bone.name)
     expect(page).to have_no_content(@tire.name)
   end
   it 'Can see pending orders with merchant items' do
