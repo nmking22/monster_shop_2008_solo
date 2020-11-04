@@ -17,11 +17,12 @@ class Order <ApplicationRecord
 
   def cancel_order
     self.update(status: 'cancelled')
-    item_orders.each do |order|
-      if order.status == 'fulfilled'
-       order.item.inventory += order.quantity
-      end   #we need to test to make sure this is this doing the thing
-       order.status = 'unfulfilled'
+    item_orders.each do |item_order|
+      if item_order.status == 'fulfilled'
+       item_order.item.inventory += item_order.quantity
+      end
+      # we need to test to make sure this is this doing the thing
+       item_order.status = 'unfulfilled'
      end
   end
 
