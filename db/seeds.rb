@@ -13,7 +13,7 @@ Merchant.destroy_all
 Item.destroy_all
 
 #merchants
-pokemon_shop = Merchant.create(name: "Brett's Pokemon Shop", address: "5465 Fireball ln", city: "Alaska", state: "CO", zip: 90054)
+pokemon_shop = Merchant.create(name: "Brett's Pokemon Shop!", address: "5465 Fireball ln", city: "Alaska", state: "CO", zip: 90054)
 barbie_shop = Merchant.create(name: "Brian's Barbie Shop", address: "9898 Pink Flower Ave", city: "Delaware", state: "FL", zip: 8432)
 legos_shop = Merchant.create(name: "Eduardo's Lego Shop", address: "1232 Building Block ln", city: "LA", state: "CA", zip: 90210)
 bike_shop = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
