@@ -30,7 +30,7 @@
 
 
 ## Instructions
-Our applicaiton is hosted on [Heroku](https://infinite-depths-29009.herokuapp.com/), where you'll be able to view its functionality to the fullest. 
+Our application is hosted on [Heroku](https://infinite-depths-29009.herokuapp.com/), where you'll be able to view its functionality to the fullest. 
 
 For usage on your local machine follow the instructions listed below:
 ```
