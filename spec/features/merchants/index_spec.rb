@@ -13,16 +13,6 @@ RSpec.describe 'merchant index page', type: :feature do
       expect(page).to have_link("Brian's Bike Shop")
       expect(page).to have_link("Meg's Dog Shop")
     end
-
-    it 'I can see a link to create a new merchant' do
-      visit '/merchants'
-
-      expect(page).to have_link("New Merchant")
-
-      click_on "New Merchant"
-
-      expect(current_path).to eq("/merchants/new")
-    end
   end
 
   describe 'As an admin' do
@@ -47,6 +37,16 @@ RSpec.describe 'merchant index page', type: :feature do
         role: 2)
 
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+    end
+    
+    it 'I can see a link to create a new merchant' do
+      visit '/merchants'
+
+      expect(page).to have_link("New Merchant")
+
+      click_on "New Merchant"
+
+      expect(current_path).to eq("/merchants/new")
     end
 
     it "I can see a merchant's dashboard." do
