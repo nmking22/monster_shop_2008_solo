@@ -4,9 +4,6 @@ class ItemsController<ApplicationController
     if params[:merchant_id]
       @merchant = Merchant.find(params[:merchant_id])
       @items = @merchant.items
-    elsif current_merchant_user?
-      @merchant = current_user.merchant
-      @items = @merchant.items
     else
       @items = Item.all
     end
