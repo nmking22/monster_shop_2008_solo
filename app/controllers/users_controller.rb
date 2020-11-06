@@ -11,7 +11,10 @@ class UsersController < ApplicationController
       flash[:notice] = "You are now registered and logged in!"
       redirect_to '/profile'
     elsif @user.duplicate_email?
-      flash[:notice] = "Email already exists, please choose a different email."
+      flash[:failure] = "Email already exists, please choose a different email."
+      render :new
+    elsif params[:password] != params[:password_confirmation]
+      flash[:failure] = "Password and Password Confirmation fields did not match."
       render :new
     else
       flash[:failure] = "You are missing required fields."
