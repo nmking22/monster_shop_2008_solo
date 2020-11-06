@@ -1,10 +1,5 @@
 class OrdersController <ApplicationController
 
-  def index
-    # binding.pry
-    @orders = Order.all
-  end
-
   def new
   end
 
