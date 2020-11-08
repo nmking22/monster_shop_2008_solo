@@ -82,4 +82,32 @@ describe "As a merchant employee, when I click 'All Discounts'" do
     expect(page).to_not have_content(@five_plus.name)
     expect(page).to_not have_content(@ten_plus.name)
   end
+
+  it 'All discount names are links to respective show views' do
+    visit '/merchant/discounts'
+
+    within "#discount-#{@ten_rangs.id}" do
+      click_link(@ten_rangs.name)
+    end
+
+    expect(current_path).to eq("/merchant/discounts/#{@ten_rangs.id}")
+
+    expect(page).to have_content("#{@ten_rangs.name}")
+    expect(page).to have_content("Percent Off: #{@ten_rangs.percentage}%")
+    expect(page).to have_content("Minimum Eligible Quantity: #{@ten_rangs.threshold}")
+  end
+
+  it "I see a link to edit discounts next to each discount that takes me to that discount's edit page" do
+    visit '/merchant/discounts'
+
+    within "#discount-#{@fifty_rangs.id}" do
+      expect(page).to have_link("Edit Discount")
+    end
+
+    within "#discount-#{@ten_rangs.id}" do
+      click_link "Edit Discount"
+    end
+
+    expect(current_path).to eq("/merchant/discounts/#{@ten_rangs.id}/edit")
+  end
 end
