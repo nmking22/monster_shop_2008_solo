@@ -110,4 +110,21 @@ describe "As a merchant employee, when I click 'All Discounts'" do
 
     expect(current_path).to eq("/merchant/discounts/#{@ten_rangs.id}/edit")
   end
+
+  it "I see a link to delete discounts next to each discount that deletes the discount and takes me to discount index" do
+    visit '/merchant/discounts'
+
+    within "#discount-#{@fifty_rangs.id}" do
+      expect(page).to have_link("Delete Discount")
+    end
+
+    within "#discount-#{@ten_rangs.id}" do
+      click_link "Delete Discount"
+    end
+
+    expect(current_path).to eq("/merchant/discounts")
+    expect(page).not_to have_content(@ten_rangs.name)
+    expect(page).not_to have_content("Percent Off: #{@ten_rangs.percentage}")
+    expect(page).not_to have_content(@ten_rangs.threshold)
+  end
 end

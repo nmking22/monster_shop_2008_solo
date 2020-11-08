@@ -37,4 +37,16 @@ describe 'As a merchant employee, when I visit a discount show page' do
 
     expect(current_path).to eq("/merchant/discounts/#{@ten_rangs.id}/edit")
   end
+
+  it "The link to 'Delete Discount' redirects me to discount index and deletes the discount" do
+    visit "/merchant/discounts/#{@ten_rangs.id}"
+
+    click_link "Delete Discount"
+
+    expect(current_path).to eq("/merchant/discounts")
+
+    expect(page).not_to have_content(@ten_rangs.name)
+    expect(page).not_to have_content(@ten_rangs.percentage)
+    expect(page).not_to have_content(@ten_rangs.threshold)
+  end
 end
