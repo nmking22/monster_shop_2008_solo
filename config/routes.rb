@@ -28,7 +28,6 @@ Rails.application.routes.draw do
   get '/profile/orders/:id', to: 'orders#show'
   patch '/profile/orders/:id', to: 'orders#update'
 
-
   # password
   # resources :password, only: [:edit, :update]
   get '/password/edit', to: 'password#edit'
@@ -62,7 +61,6 @@ Rails.application.routes.draw do
     resources :items
     resources :item_orders, only: [:update]
     resources :orders, only: [:show]
+    resources :discounts
   end
-
-
 end
