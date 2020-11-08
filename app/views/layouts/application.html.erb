@@ -16,6 +16,7 @@
       <% if current_merchant_user? %>
         <%= link_to "Merchant Dashboard", "/merchant" %>
         <%= link_to "My Discounts", "/merchant/discounts" %>
+        <%= link_to "Create Discount", "/merchant/discounts/new" %>
       <% end %>
       <% if current_admin_user? %>
         <%= link_to "Admin Dashboard", "/admin" %>
