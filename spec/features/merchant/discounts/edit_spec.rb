@@ -45,6 +45,7 @@ describe 'As a Merchant Employee, when I visit a discount edit page' do
       expect(page).to have_content("Minimum Eligible Quantity: 11")
     end
   end
+  
   it 'The form fields are pre-filled with current attributes' do
     visit "/merchant/discounts/#{@ten_rangs.id}"
 
