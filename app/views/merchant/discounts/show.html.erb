@@ -5,3 +5,4 @@
 <p>Minimum Eligible Quantity: <%= @discount.threshold %></p>
 
 <%= link_to "Edit Discount", "/merchant/discounts/#{@discount.id}/edit" %>
+<%= link_to "Delete Discount", "/merchant/discounts/#{@discount.id}", method: :delete %>
