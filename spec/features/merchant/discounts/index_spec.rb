@@ -127,4 +127,12 @@ describe "As a merchant employee, when I click 'All Discounts'" do
     expect(page).not_to have_content("Percent Off: #{@ten_rangs.percentage}")
     expect(page).not_to have_content(@ten_rangs.threshold)
   end
+
+  it "I see a link to create a discount that redirects me to discounts new" do
+    visit '/merchant/discounts'
+
+    click_link "Create New Discount"
+
+    expect(current_path).to eq("/merchant/discounts/new")
+  end
 end
