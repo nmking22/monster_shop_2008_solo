@@ -1,0 +1,9 @@
+<h1><%= @merchant.name %>'s Current Discounts</h1>
+<br>
+<% @discounts.each do |discount| %>
+  <section id = discount-<%= discount.id %>>
+    <h3>Discount Name: <%= discount.name %></h3>
+    <p>Percent Off: <%= discount.percentage %>%</p>
+    <p>Minimum Eligible Quantity: <%= discount.threshold %></p><br>
+  </section>
+<% end %>
