@@ -24,7 +24,7 @@ describe 'As a merchant employee' do
   end
 
   describe "When I click the 'Create Discount' button, and fill out the form" do
-    xit "I am redirected to the merchant discount index, where I see the discount" do
+    it "I am redirected to the merchant discount index, where I see the discount" do
       visit '/'
 
       within '.topnav' do
