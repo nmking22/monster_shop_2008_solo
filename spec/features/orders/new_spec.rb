@@ -156,5 +156,25 @@ RSpec.describe "New Order Page" do
         expect(page).to have_content("$98.60")
       end
     end
+
+    describe "When I submit the discounted order" do
+      before :each do
+        visit '/orders/new'
+
+        fill_in :name, with: "Batman"
+        fill_in :address, with: "Some dark cave 11"
+        fill_in :city, with: "Arkham"
+        fill_in :state, with: "CO"
+        fill_in :zip, with: "81301"
+
+        click_button 'Create Order'
+      end
+
+      it "I am redirected to order index where the grand total is updated with discounts applied" do
+        expect(current_path).to eq('/profile/orders')
+
+        expect(page).to have_content('Order Grandtotal: $98.60')
+      end
+    end
   end
 end
