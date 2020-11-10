@@ -69,4 +69,72 @@ RSpec.describe "Order Show Page"  do
     end
   end
 
+  describe "When I visit an order show page with discounts" do
+    before :each do
+      @mike.discounts.create!(
+        name: "Ten Percent Off",
+        percentage: 10,
+        threshold: 2
+      )
+      @mike.discounts.create!(
+        name: "Twenty Five Percent Off",
+        percentage: 25,
+        threshold: 3
+      )
+      @meg.discounts.create!(
+        name: "Fire Sale",
+        percentage: 50,
+        threshold: 2
+      )
+      @order_1 = @user.orders.create!(
+        name: 'Rodrigo',
+        address: '2 1st St.',
+        city: 'South Park',
+        state: 'CO',
+        zip: '84125'
+      )
+      @order_1.item_orders.create!(
+        item: @paper,
+        quantity: 3,
+        price: (@paper.discounted_price(3))
+      )
+      @order_1.item_orders.create!(
+        item: @pencil,
+        quantity: 2,
+        price: (@pencil.discounted_price(2))
+      )
+      @order_1.item_orders.create!(
+        item: @tire,
+        quantity: 2,
+        price: (@tire.discounted_price(2))
+      )
+    end
+
+    it "Each item's price and subtotal are updated with eligible discounts" do
+      visit "/profile/orders/#{@order_1.id}"
+
+      within "#item-#{@paper.id}" do
+        expect(page).to have_content("$15.00")
+        expect(page).to have_content("$45.00")
+      end
+
+      within "#item-#{@pencil.id}" do
+        expect(page).to have_content("$1.80")
+        expect(page).to have_content("$3.60")
+      end
+
+      within "#item-#{@tire.id}" do
+        expect(page).to have_content("$50.00")
+        expect(page).to have_content("$100.00")
+      end
+    end
+
+    it "The order grandtotal is updated with eligible discounts" do
+      visit "/profile/orders/#{@order_1.id}"
+
+      within '#grandtotal' do
+        expect(page).to have_content("$148.60")
+      end
+    end
+  end
 end
