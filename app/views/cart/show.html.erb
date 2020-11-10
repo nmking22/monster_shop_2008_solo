@@ -26,7 +26,14 @@
         </p>
       </td>
       <td>
-        <p><%=number_to_currency(item.price)%></p>
+        <section id = "price">
+          <% discount = item.find_discount(quantity) %>
+          <p><%=number_to_currency(item.discounted_price(quantity))%></p>
+          <% if discount %>
+            <p><%= "#{discount.name} discount applied!" %></p>
+            <p><%= "#{discount.percentage}% savings!" %></p>
+          <% end %>
+        </section>
       </td>
       <td>
         <center>
@@ -39,7 +46,9 @@
         </center>
         </td>
       <td>
-        <p><%=number_to_currency(cart.subtotal(item))%></p>
+        <section id = "subtotal">
+          <p><%=number_to_currency(cart.subtotal(item))%></p>
+        </section>
     </td>
     </tr>
   <% end %>
