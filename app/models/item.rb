@@ -3,6 +3,7 @@ class Item <ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_many :item_orders
   has_many :orders, through: :item_orders
+  has_many :discounts, through: :merchant
 
   validates_presence_of :name,
                         :description,
@@ -45,4 +46,15 @@ class Item <ApplicationRecord
     item_orders.sum(:quantity)
   end
 
+  def find_discount(quantity)
+    discounts.where("threshold <= #{quantity}").order(percentage: :desc).first
+  end
+
+  def discounted_price(quantity)
+    price * discounted_percent(quantity)
+  end
+
+  def discounted_percent(quantity)
+    (100 - find_discount(quantity).percentage) / 100
+  end
 end
