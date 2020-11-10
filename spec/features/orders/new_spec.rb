@@ -76,39 +76,7 @@ RSpec.describe "New Order Page" do
 
 # Discounted Items
   describe "When I visit a new order page with discounted items" do
-    it "All prices are updated with eligible discounts" do
-      @mike.discounts.create!(
-        name: "Ten Percent Off",
-        percentage: 10,
-        threshold: 2
-      )
-      @meg.discounts.create!(
-        name: "Fire Sale",
-        percentage: 50,
-        threshold: 1
-      )
-      visit '/orders/new'
-
-      within "#order-item-#{@tire.id}" do
-        within '#price' do
-          expect(page).to have_content("$50.00")
-        end
-      end
-
-      within "#order-item-#{@paper.id}" do
-        within '#price' do
-          expect(page).to have_content("$18.00")
-        end
-      end
-
-      within "#order-item-#{@pencil.id}" do
-        within '#price' do
-          expect(page).to have_content("$2.00")
-        end
-      end
-    end
-
-    it "All subtotals are updated with best eligible discount" do
+    before :each do
       @mike.discounts.create!(
         name: "Ten Percent Off",
         percentage: 10,
@@ -135,7 +103,31 @@ RSpec.describe "New Order Page" do
       click_on "Add To Cart"
       visit "/items/#{@pencil.id}"
       click_on "Add To Cart"
+    end
 
+    it "All prices are updated with eligible discounts" do
+      visit '/orders/new'
+
+      within "#order-item-#{@tire.id}" do
+        within '#price' do
+          expect(page).to have_content("$25.00")
+        end
+      end
+
+      within "#order-item-#{@paper.id}" do
+        within '#price' do
+          expect(page).to have_content("$15.00")
+        end
+      end
+
+      within "#order-item-#{@pencil.id}" do
+        within '#price' do
+          expect(page).to have_content("$1.80")
+        end
+      end
+    end
+
+    it "All subtotals are updated with best eligible discount" do
       visit '/orders/new'
 
       within "#order-item-#{@tire.id}" do
@@ -158,33 +150,6 @@ RSpec.describe "New Order Page" do
     end
 
     it "The total is updated with all discounted prices" do
-      @mike.discounts.create!(
-        name: "Ten Percent Off",
-        percentage: 10,
-        threshold: 2
-      )
-      @mike.discounts.create!(
-        name: "Twenty Five Percent Off",
-        percentage: 25,
-        threshold: 3
-      )
-      @meg.discounts.create!(
-        name: "Fire Sale",
-        percentage: 50,
-        threshold: 1
-      )
-      @meg.discounts.create!(
-        name: "Fuego Sale",
-        percentage: 75,
-        threshold: 2
-      )
-      visit "/items/#{@tire.id}"
-      click_on "Add To Cart"
-      visit "/items/#{@paper.id}"
-      click_on "Add To Cart"
-      visit "/items/#{@pencil.id}"
-      click_on "Add To Cart"
-
       visit '/orders/new'
 
       within '#total' do
