@@ -5,6 +5,11 @@ RSpec.describe Cart do
     before :each do
       @megan = Merchant.create!(name: 'Megans Marmalades', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218)
       @brian = Merchant.create!(name: 'Brians Bagels', address: '125 Main St', city: 'Denver', state: 'CO', zip: 80218)
+      @ten_off = @megan.discounts.create!(
+        name: 'Ten Off',
+        percentage: 10,
+        threshold: 2,
+        merchant: @mike)
       @ogre = @megan.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', inventory: 5 )
       @giant = @megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', inventory: 2 )
       @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', inventory: 3 )
@@ -40,12 +45,12 @@ RSpec.describe Cart do
     end
 
     it '.total' do
-      expect(@cart.total).to eq(120)
+      expect(@cart.total).to eq(110)
     end
 
     it '.subtotal()' do
       expect(@cart.subtotal(@ogre)).to eq(20)
-      expect(@cart.subtotal(@giant)).to eq(100)
+      expect(@cart.subtotal(@giant)).to eq(90)
     end
 
     it '.decrement_item' do
