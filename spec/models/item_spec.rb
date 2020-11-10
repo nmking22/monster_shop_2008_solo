@@ -131,11 +131,13 @@ describe Item, type: :model do
     end
 
     it '#discounted_price' do
+      expect(@chain.discounted_price(1)).to eq(50)
       expect(@chain.discounted_price(5)).to eq(47.5)
       expect(@chain.discounted_price(10)).to eq(45)
     end
 
     it '#discounted_percent' do
+      expect(@chain.discounted_percent(1)).to eq(1)
       expect(@chain.discounted_percent(5)).to eq(0.95)
       expect(@chain.discounted_percent(10)).to eq(0.9)
     end
