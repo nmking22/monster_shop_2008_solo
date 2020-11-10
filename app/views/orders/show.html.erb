@@ -2,11 +2,13 @@
   <h1 align = "center">Shipping Info</h1>
   <table>
     <tr>
+      <th>ID</th>
       <th>Name</th>
       <th>Address</th>
       <th>City</th>
       <th>State</th>
       <th>Zip</th>
+      <th>Status</th>
     </tr>
     <tr>
       <td><p><%= @order.id %> </p></td>
@@ -33,6 +35,8 @@
       <th>Sold By</th>
       <th>Price</th>
       <th>Quantity</th>
+      <th>Description</th>
+      <th>Image</th>
       <th>Subtotal</th>
     </tr>
   <% @order.item_orders.each do |item_order|%>
