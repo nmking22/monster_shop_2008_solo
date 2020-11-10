@@ -55,6 +55,10 @@ class Item <ApplicationRecord
   end
 
   def discounted_percent(quantity)
-    (100 - find_discount(quantity).percentage) / 100
+    if find_discount(quantity)
+      (100 - find_discount(quantity).percentage) / 100
+    else
+      1
+    end
   end
 end
