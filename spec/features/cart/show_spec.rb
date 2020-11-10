@@ -43,7 +43,7 @@ RSpec.describe 'Cart show' do
         @items_in_cart = [@paper,@tire,@pencil]
       end
 
-      xit 'I can empty my cart by clicking a link' do
+      it 'I can empty my cart by clicking a link' do
         visit '/cart'
         expect(page).to have_link("Empty Cart")
         click_on "Empty Cart"
@@ -52,7 +52,7 @@ RSpec.describe 'Cart show' do
         expect(page).to have_content("Cart is currently empty")
       end
 
-      xit 'I see all items Ive added to my cart' do
+      it 'I see all items Ive added to my cart' do
         visit '/cart'
 
         @items_in_cart.each do |item|
@@ -83,13 +83,13 @@ RSpec.describe 'Cart show' do
   end
   describe "When I haven't added anything to my cart" do
     describe "and visit my cart show page" do
-      xit "I see a message saying my cart is empty" do
+      it "I see a message saying my cart is empty" do
         visit '/cart'
         expect(page).to_not have_css(".cart-items")
         expect(page).to have_content("Cart is currently empty")
       end
 
-      xit "I do NOT see the link to empty my cart" do
+      it "I do NOT see the link to empty my cart" do
         visit '/cart'
         expect(page).to_not have_link("Empty Cart")
       end
