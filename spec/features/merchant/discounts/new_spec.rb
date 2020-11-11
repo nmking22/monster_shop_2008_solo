@@ -45,4 +45,51 @@ describe 'As a merchant employee' do
       expect(page).to have_content("Minimum Eligible Quantity: 20")
     end
   end
+
+  describe 'When I fill out the discounts new form with a missing name field' do
+    it 'I am redirected back to discounts new with a flash message indicating the problem' do
+      visit '/merchant/discounts/new'
+
+      fill_in :name, with: ""
+      fill_in :percentage, with: 5
+      fill_in :threshold, with: 20
+
+      click_button 'Create Discount'
+
+      expect(current_path).to eq('/merchant/discounts/new')
+      expect(page).to have_content('All fields must be filled in.')
+    end
+  end
+
+  describe 'When I fill out the discounts new form with a missing percentage field' do
+    it 'I am redirected back to discounts new with a flash message indicating the problem' do
+      visit '/merchant/discounts/new'
+
+      fill_in :name, with: "Nick!"
+      fill_in :percentage, with: ""
+      fill_in :threshold, with: 20
+
+      click_button 'Create Discount'
+
+      expect(current_path).to eq('/merchant/discounts/new')
+      expect(page).to have_content('All fields must be filled in.')
+    end
+  end
+
+  describe 'When I fill out the discounts new form with a missing threshold field' do
+    it 'I am redirected back to discounts new with a flash message indicating the problem' do
+      visit '/merchant/discounts/new'
+
+      fill_in :name, with: "Nick!"
+      fill_in :percentage, with: 5
+      fill_in :threshold, with: ""
+
+      click_button 'Create Discount'
+
+      expect(current_path).to eq('/merchant/discounts/new')
+      expect(page).to have_content('All fields must be filled in.')
+    end
+  end
+  # invalid percentage - negative/above 100
+  #negative items
 end
