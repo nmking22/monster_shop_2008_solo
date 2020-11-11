@@ -11,8 +11,11 @@ class Merchant::DiscountsController < Merchant::BaseController
   def create
     discount = Discount.new(discount_params)
     discount.merchant = current_user.merchant
-    discount.save!
-    redirect_to '/merchant/discounts'
+    if discount.save
+      redirect_to '/merchant/discounts'
+    else
+      redirect_to '/merchant/discounts/new', notice: 'All fields must be filled in.'
+    end
   end
 
   def show
