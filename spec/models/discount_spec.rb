@@ -13,6 +13,27 @@ describe Discount, type: :model do
     it { should have_many :item_orders }
   end
 
+  describe 'class_methods' do
+    it '.discount_exists?' do
+      batarang_emporium = Merchant.create(
+        name: "Batman's Batarang Emporium",
+        address: '123 Wayne Dr.',
+        city: 'Gotham',
+        state: 'IL',
+        zip: 80210
+      )
+      ten_rangs = Discount.create!(
+        name: 'Ten Rangs',
+        percentage: -5,
+        threshold: 10,
+        merchant: batarang_emporium
+      )
+
+      expect(Discount.discount_exists?('fake')).to eq(false)
+      expect(Discount.discount_exists?(ten_rangs.id)).to eq(true)
+    end
+  end
+
   describe 'instance_methods' do
     it '#invalid_percentage?' do
       batarang_emporium = Merchant.create(
