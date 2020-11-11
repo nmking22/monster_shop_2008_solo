@@ -47,7 +47,7 @@ class Item <ApplicationRecord
   end
 
   def find_discount(quantity)
-    discounts.where("threshold <= #{quantity}").order(percentage: :desc).first
+    discounts.where('threshold <= ?', quantity).order(percentage: :desc).first
   end
 
   def discounted_price(quantity)
