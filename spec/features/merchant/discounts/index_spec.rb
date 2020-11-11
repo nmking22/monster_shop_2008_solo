@@ -1,6 +1,31 @@
 require 'rails_helper'
 
 describe "As a merchant employee, when I click 'All Discounts'" do
+  it 'I am indicated that no discounts exist if none are in the database' do
+    batarang_emporium = Merchant.create(
+      name: "Batman's Batarang Emporium",
+      address: '123 Wayne Dr.',
+      city: 'Gotham',
+      state: 'IL',
+      zip: 80210
+    )
+    batman = User.create!(
+      name: "Batman",
+      address: "Some dark cave 11",
+      city: "Arkham",
+      state: "CO",
+      zip: "81301",
+      email: 'bman@email.com',
+      password: "password",
+      role: 1,
+      merchant: batarang_emporium
+    )
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(batman)
+
+    visit '/merchant/discounts'
+
+    expect(page).to have_content("#{batarang_emporium.name} currently has no available discounts.")
+  end
   before :each do
     @batarang_emporium = Merchant.create(
       name: "Batman's Batarang Emporium",

@@ -82,7 +82,7 @@ goggles = scuba_shop.items.create(name: "Goggles", description: "Cheap and not w
 
 #users
 user = User.create(name: "User", address: "123 Main Street", city: "Anytown", state: "Anystate", zip: 123456, email: "user@user.com", password: "1234", role: 0)
-merchant = bike_shop.users.create(name: "Merchant", address: "123 Main Street", city: "Anytown", state: "Anystate", zip: 123456, email: "merchant@merchant.com", password: "1234", role: 1)
+merchant = legos_shop.users.create(name: "Merchant", address: "123 Main Street", city: "Anytown", state: "Anystate", zip: 123456, email: "merchant@merchant.com", password: "1234", role: 1)
 admin = User.create(name: "Admin", address: "123 Main Street", city: "Anytown", state: "Anystate", zip: 123456, email: "admin@admin.com", password: "1234", role: 2)
 
 #orders

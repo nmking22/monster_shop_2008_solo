@@ -49,4 +49,11 @@ describe 'As a merchant employee, when I visit a discount show page' do
     expect(page).not_to have_content(@ten_rangs.percentage)
     expect(page).not_to have_content(@ten_rangs.threshold)
   end
+
+  it 'I am redirected to discounts index if no discount exists with that ID' do
+    visit '/merchant/discounts/fake'
+
+    expect(current_path).to eq('/merchant/discounts')
+    expect(page).to have_content('Invalid URL. No discount exists with that ID.')
+  end
 end
