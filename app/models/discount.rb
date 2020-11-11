@@ -3,4 +3,8 @@ class Discount < ApplicationRecord
 
   belongs_to :merchant
   has_many :item_orders
+
+  def invalid_percentage?
+    percentage < 0 || percentage > 100
+  end
 end
