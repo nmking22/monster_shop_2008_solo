@@ -34,9 +34,16 @@ describe Discount, type: :model do
         threshold: 20,
         merchant: @batarang_emporium
       )
+      the_riddler = Discount.new(
+        name: 'The Riddler',
+        percentage: nil,
+        threshold: 20,
+        merchant: @batarang_emporium
+      )
 
       expect(ten_rangs.invalid_percentage?).to eq(true)
       expect(hero_discount.invalid_percentage?).to eq(true)
+      expect(the_riddler.invalid_percentage?).to eq(true)
     end
 
     it '#invalid_threshold?' do
@@ -56,11 +63,12 @@ describe Discount, type: :model do
       hero_discount = Discount.new(
         name: 'Hero Discount',
         percentage: 15,
-        threshold: 20.8,
+        threshold: nil,
         merchant: @batarang_emporium
       )
 
       expect(ten_rangs.invalid_threshold?).to eq(true)
+      expect(hero_discount.invalid_threshold?).to eq(true)
     end
   end
 end
