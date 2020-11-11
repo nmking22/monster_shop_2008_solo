@@ -23,7 +23,11 @@ class Merchant::DiscountsController < Merchant::BaseController
   end
 
   def show
-    @discount = Discount.find(params[:id])
+    if Discount.discount_exists?(params[:id])
+      @discount = Discount.find(params[:id])
+    else
+      redirect_to '/merchant/discounts', notice: 'Invalid URL. No discount exists with that ID.'
+    end
   end
 
   def edit
