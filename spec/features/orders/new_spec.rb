@@ -149,6 +149,46 @@ RSpec.describe "New Order Page" do
       end
     end
 
+    it "The discount name and amount are indicated" do
+      visit '/orders/new'
+
+      within "#order-item-#{@paper.id}" do
+        within '#discount-info' do
+          expect(page).to have_content("Twenty Five Percent Off applied!")
+          expect(page).to have_content("25.0% off this product!")
+        end
+      end
+
+      within "#order-item-#{@tire.id}" do
+        within '#discount-info' do
+          expect(page).to have_content("Fuego Sale applied!")
+          expect(page).to have_content("75.0% off this product!")
+        end
+      end
+
+      within "#order-item-#{@pencil.id}" do
+        within '#discount-info' do
+          expect(page).to have_content("Ten Percent Off applied!")
+          expect(page).to have_content("10.0% off this product!")
+        end
+      end
+    end
+
+    it "'No Eligible Discount' is indicated for non-discounted items" do
+      tower = @mike.items.create(name: "Castle", description: "epic and glorious", price: 22, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSKUZDbGra_dHzHxPzD-_8Sk3JjB6u9EpaXqQ&usqp=CAU", inventory: 4)
+
+      visit "/items/#{tower.id}"
+      click_on "Add To Cart"
+
+      visit '/orders/new'
+
+      within "#order-item-#{tower.id}" do
+        within '#discount-info' do
+          expect(page).to have_content("No Eligible Discount")
+        end
+      end
+    end
+
     it "The total is updated with all discounted prices" do
       visit '/orders/new'
 
