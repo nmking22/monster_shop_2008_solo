@@ -32,7 +32,7 @@ describe "As a merchant employee when I visit an order show page" do
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
 
     @pull_toy = @dog_shop.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
-    @dog_bone = @dog_shop.items.create(name: "Dog Bone", description: "They'll love it!", price: 21, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", active?:false, inventory: 21)
+    @dog_bone = @dog_shop.items.create(name: "Dog Bone", description: "They'll love it!", price: 20, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", active?:false, inventory: 21)
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
     @tire = @bike_shop.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
 
@@ -62,19 +62,19 @@ describe "As a merchant employee when I visit an order show page" do
       item: @pull_toy,
       order: @order_1,
       quantity: 1,
-      price: (@pull_toy.price * 1)
+      price: (@pull_toy.discounted_price(1))
     )
-    ItemOrder.create!(
+    @item_order_2 = ItemOrder.create!(
       item: @dog_bone,
       order: @order_2,
       quantity: 500,
-      price: (@dog_bone.price * 500)
+      price: (@dog_bone.discounted_price(500))
     )
-    ItemOrder.create!(
+    @item_order_3 = ItemOrder.create!(
       item: @tire,
       order: @order_1,
       quantity: 200,
-      price: (@tire.price * 200)
+      price: (@tire.discounted_price(200))
     )
   end
 
@@ -83,7 +83,6 @@ describe "As a merchant employee when I visit an order show page" do
     within "#order-#{@order_1.id}" do
       click_link(@order_1.id)
     end
-
 
     expect(current_path).to eq("/merchant/orders/#{@order_1.id}")
 
@@ -115,7 +114,6 @@ describe "As a merchant employee when I visit an order show page" do
   end
 
   it 'cant fulfill order if item_order quantity > item inventory' do
-
     item_order_1 = ItemOrder.create!(
       item: @pull_toy,
       order: @order_1,
@@ -123,8 +121,28 @@ describe "As a merchant employee when I visit an order show page" do
       price: (@pull_toy.price * 1)
     )
     visit "/merchant/orders/#{@order_1.id}"
-      within "#item-order-#{item_order_1.id}" do
-       expect(page).to have_content("Item can not be fulfilled due to lack of inventory.")
-      end
+    within "#item-order-#{item_order_1.id}" do
+      expect(page).to have_content("Item can not be fulfilled due to lack of inventory.")
     end
+  end
+
+  it 'All items with active discounts display discounted prices and a message indicating the discount' do
+    discount_1 = @dog_shop.discounts.create(
+      name: "Ten Percent Off",
+      percentage: 10,
+      threshold: 5
+    )
+    item_order_4 = ItemOrder.create!(
+      item: @dog_bone,
+      order: @order_1,
+      quantity: 10,
+      price: (@dog_bone.discounted_price(500))
+    )
+    visit "/merchant/orders/#{@order_1.id}"
+
+    within "#item-order-#{item_order_4.id}" do
+      expect(page).to have_content("$18.00")
+      expect(page).to have_content("#{discount_1.name} applied! #{discount_1.percentage}% off this product.")
+    end
+  end
 end
