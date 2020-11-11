@@ -72,7 +72,7 @@ describe 'As a merchant employee' do
       click_button 'Create Discount'
 
       expect(current_path).to eq('/merchant/discounts/new')
-      expect(page).to have_content('All fields must be filled in.')
+      expect(page).to have_content('Discount percentage must be filled with an integer or float between 0 and 100.')
     end
   end
 
@@ -87,7 +87,7 @@ describe 'As a merchant employee' do
       click_button 'Create Discount'
 
       expect(current_path).to eq('/merchant/discounts/new')
-      expect(page).to have_content('All fields must be filled in.')
+      expect(page).to have_content('Minimum Items for Activation must be filled with an integer zero or greater.')
     end
   end
 
@@ -102,7 +102,7 @@ describe 'As a merchant employee' do
       click_button 'Create Discount'
 
       expect(current_path).to eq('/merchant/discounts/new')
-      expect(page).to have_content('Discount percentage must be an integer or float between 0 and 100.')
+      expect(page).to have_content('Discount percentage must be filled with an integer or float between 0 and 100.')
     end
   end
 
@@ -117,8 +117,23 @@ describe 'As a merchant employee' do
       click_button 'Create Discount'
 
       expect(current_path).to eq('/merchant/discounts/new')
-      expect(page).to have_content('Discount percentage must be an integer or float between 0 and 100.')
+      expect(page).to have_content('Discount percentage must be filled with an integer or float between 0 and 100.')
     end
   end
-  #negative items
+
+  describe "When I fill in the discounts new form with a negative threshold input" do
+    it 'I am redirected to discounts new with an invalid threshold message' do
+      visit '/merchant/discounts/new'
+
+      fill_in :name, with: "Nick!"
+      fill_in :percentage, with: 20
+      fill_in :threshold, with: -23
+
+      click_button 'Create Discount'
+
+      expect(current_path).to eq('/merchant/discounts/new')
+      expect(page).to have_content('Minimum Items for Activation must be filled with an integer zero or greater.')
+    end
+  end
+  # float threshold
 end
