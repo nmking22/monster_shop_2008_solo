@@ -81,13 +81,28 @@ describe 'As a merchant employee' do
       visit '/merchant/discounts/new'
 
       fill_in :name, with: "Nick!"
-      fill_in :percentage, with: 5
+      fill_in :percentage, with: 5.5
       fill_in :threshold, with: ""
 
       click_button 'Create Discount'
 
       expect(current_path).to eq('/merchant/discounts/new')
       expect(page).to have_content('All fields must be filled in.')
+    end
+  end
+
+  describe "When I fill in the discounts new form with a negative percentage" do
+    it 'I am redirected to discounts new with an error indicating an invalid percentage' do
+      visit '/merchant/discounts/new'
+
+      fill_in :name, with: "Nick!"
+      fill_in :percentage, with: -5
+      fill_in :threshold, with: 20
+
+      click_button 'Create Discount'
+
+      expect(current_path).to eq('/merchant/discounts/new')
+      expect(page).to have_content('Discount percentage must be an integer or float between 0 and 100.')
     end
   end
   # invalid percentage - negative/above 100
