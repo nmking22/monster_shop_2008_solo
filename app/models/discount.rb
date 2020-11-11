@@ -7,4 +7,8 @@ class Discount < ApplicationRecord
   def invalid_percentage?
     percentage < 0 || percentage > 100
   end
+
+  def invalid_threshold?
+    threshold < 0
+  end
 end
