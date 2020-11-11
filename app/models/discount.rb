@@ -11,4 +11,8 @@ class Discount < ApplicationRecord
   def invalid_threshold?
     threshold == nil || threshold < 0
   end
+
+  def self.discount_exists?(id)
+    Discount.where(id: id) != []
+  end
 end
