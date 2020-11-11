@@ -5,21 +5,36 @@
     <th>Price</th>
     <th>Quantity</th>
     <th>Subtotal</th>
+    <th>Discount Applied</th>
     <th>Sold By</th>
     <th>Inventory</th>
   </tr>
   <% cart.items.each do |item, quantity| %>
-    <tr id='order-item-<%= item.id%>'>
+    <tr id='order-item-<%= item.id %>'>
       <td><h2><%= link_to item.name, "/items/#{item.id}" %></h2></td>
-      <td><p><%= number_to_currency(item.price) %></p></td>
+      <section id = 'price'>
+        <td><p><%= number_to_currency(item.discounted_price(quantity)) %></p></td>
+      </section>
       <td><p><%= quantity %></p></td>
-      <td><p><%= number_to_currency(cart.subtotal(item)) %></p><td>
+      <section id = 'subtotal'>
+        <td><p><%= number_to_currency(cart.subtotal(item)) %></p></td>
+      </section>
+      <section id = 'discount-info'>
+        <% if item.find_discount(quantity) %>
+          <td>
+            <p><%= "#{item.find_discount(quantity).name} applied!"%></p>
+            <p><%="#{item.find_discount(quantity).percentage}% off this product!" %></p>
+          </td>
+        <% else %>
+          <td><p>No Eligible Discount</p></td>
+        <% end %>
+      </section>
       <td><p><%= link_to item.merchant.name, "/merchants/#{item.merchant_id}" %></p></td>
       <td><p><%= item.inventory %> in stock</p></td>
     </tr>
   <% end %>
 </table>
-<h3 align = "right">Total: <%= number_to_currency(cart.total)%></h3>
+<h3 id = 'total' align = "right">Total: <%= number_to_currency(cart.total)%></h3>
 <center>
   <h2>Shipping Info:</h2>
   <%= form_tag "/orders", method: :create do %>
