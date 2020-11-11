@@ -135,5 +135,20 @@ describe 'As a merchant employee' do
       expect(page).to have_content('Minimum Items for Activation must be filled with an integer zero or greater.')
     end
   end
-  # float threshold
+
+  describe "When I fill in the discounts new form with a float threshold input" do
+    it 'I am redirected to discounts with threshold rounded down' do
+      visit '/merchant/discounts/new'
+
+      fill_in :name, with: "Nick!"
+      fill_in :percentage, with: 20
+      fill_in :threshold, with: 20.92
+
+      click_button 'Create Discount'
+
+      expect(current_path).to eq('/merchant/discounts')
+
+      expect(page).to have_content('Minimum Eligible Quantity: 20')
+    end
+  end
 end
