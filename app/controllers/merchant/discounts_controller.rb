@@ -11,10 +11,12 @@ class Merchant::DiscountsController < Merchant::BaseController
   def create
     discount = Discount.new(discount_params)
     discount.merchant = current_user.merchant
-    if discount.save
-      redirect_to '/merchant/discounts'
-    else
+    if !discount.save
       redirect_to '/merchant/discounts/new', notice: 'All fields must be filled in.'
+    elsif discount.invalid_percentage?
+      redirect_to '/merchant/discounts/new', notice: 'Discount percentage must be an integer or float between 0 and 100.'
+    else
+      redirect_to '/merchant/discounts'
     end
   end
 
