@@ -9,6 +9,10 @@
       <th>State</th>
       <th>Zip</th>
       <th>Status</th>
+      <th>Created At</th>
+      <th>Updated At</th>
+      <th>Total Number of Items</th>
+      <th>Grand Total</th>
     </tr>
     <tr>
       <td><p><%= @order.id %> </p></td>
@@ -21,7 +25,7 @@
       <td><p><%= @order.updated_at %> </p></td>
       <td><p><%= @order.created_at %> </p></td>
       <td><p><%= @order.total_quantity_of_items %> </p></td>
-      <td><p><%= @order.grandtotal %> </p></td>
+      <td><p><%= number_to_currency(@order.grandtotal) %> </p></td>
     </tr>
   </table>
   <p> <%= link_to "Cancel Order", "/profile/orders/#{@order.id}", method: :patch %> </p>
