@@ -5,10 +5,10 @@ class Discount < ApplicationRecord
   has_many :item_orders
 
   def invalid_percentage?
-    percentage < 0 || percentage > 100
+    percentage == nil || percentage < 0 || percentage > 100
   end
 
   def invalid_threshold?
-    threshold < 0
+    threshold == nil || threshold < 0
   end
 end
