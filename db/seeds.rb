@@ -9,6 +9,7 @@
 ItemOrder.destroy_all
 Order.destroy_all
 User.destroy_all
+Discount.destroy_all
 Merchant.destroy_all
 Item.destroy_all
 
